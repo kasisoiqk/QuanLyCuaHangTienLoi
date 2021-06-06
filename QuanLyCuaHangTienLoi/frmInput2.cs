@@ -26,8 +26,8 @@ namespace QuanLyCuaHangTienLoi
         {
             if(txtUsername.Text.Trim().Length > 5 && txtPassword.Text.Trim().Length > 5 && txtPassword.Text.Trim().Equals(txtPassword2.Text.Trim()))
             {
-                frmMainQuanLy.username = txtUsername.Text;
-                frmMainQuanLy.password = txtPassword.Text;
+                frmQuanLyQLNhanVien.username = txtUsername.Text;
+                frmQuanLyQLNhanVien.password = txtPassword.Text;
 
                 this.Close();
             }

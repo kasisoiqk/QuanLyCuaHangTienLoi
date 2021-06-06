@@ -11,13 +11,14 @@ using Microsoft.VisualBasic;
 
 namespace QuanLyCuaHangTienLoi
 {
-    public partial class frmMainAdmin : Form
+    public partial class frmAdminQLTKNhanVien : Form
     {
         private KetNoiDB ketNoiDB = new KetNoiDB();
         private string query;
         private string State = "Reset";
+        frmShowDialogQuestion _frmShowDialogQuestion;
 
-        public frmMainAdmin()
+        public frmAdminQLTKNhanVien()
         {
             InitializeComponent();
 
@@ -26,7 +27,7 @@ namespace QuanLyCuaHangTienLoi
 
         public void SetControls(string State)
         {
-            switch(State)
+            switch (State)
             {
                 case "Reset":
                     lblTimThay.Visible = false;
@@ -121,17 +122,6 @@ namespace QuanLyCuaHangTienLoi
             lblText.Visible = false;
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            var x = MessageBox.Show("Bạn có muốn đăng xuất không?", "Đăng xuất", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-            if(x == DialogResult.OK)
-            {
-                this.Close();
-                frmLogin _frmLogin = new frmLogin();
-                _frmLogin.Show();
-            }
-        }
-
         private void btnShowList_Click(object sender, EventArgs e)
         {
             string input = Interaction.InputBox("Yêu cầu nhập lại mật khẩu của bạn để có thể tiếp tục.", "Xác thực mật khẩu", "Nhập tại đây", -1, -1);
@@ -139,13 +129,14 @@ namespace QuanLyCuaHangTienLoi
             query = "SELECT Password FROM Accounts WHERE Type = 0";
             string password = ketNoiDB.GetValue(query);
 
-            if(input.Equals(password))
+            if (input.Equals(password))
             {
                 GetData();
             }
             else
             {
-                MessageBox.Show("Bạn nhập sai mật khẩu. Vui lòng nhập lại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _frmShowDialogQuestion = new frmShowDialogQuestion("Lỗi", "Bạn nhập sai. Vui lòng thử lại!", "Thử lại", "");
+                _frmShowDialogQuestion.Show();
             }
         }
 
@@ -164,7 +155,7 @@ namespace QuanLyCuaHangTienLoi
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnAnList_Click(object sender, EventArgs e)
         {
             dgvAccounts.DataSource = null;
             lblText.Visible = true;
@@ -175,7 +166,7 @@ namespace QuanLyCuaHangTienLoi
         {
             query = "SELECT Password FROM Accounts WHERE Username = '" + txtSearch.Text.Trim() + "' AND Type = 3";
             string password = ketNoiDB.GetValue(query);
-            if(password != null)
+            if (password != null)
             {
                 lblTimThay.Visible = true;
                 lblKhongTimThay.Visible = false;
@@ -196,20 +187,21 @@ namespace QuanLyCuaHangTienLoi
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if(txtUsername.Text != "")
+            if (txtUsername.Text != "")
             {
                 State = "Update";
                 SetControls(State);
             }
             else
             {
-                MessageBox.Show("Bạn chưa chọn tài khoản muốn sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _frmShowDialogQuestion = new frmShowDialogQuestion("Lỗi", "Bạn chưa chọn tài khoản muốn sửa", "Thử lại", "");
+                _frmShowDialogQuestion.Show();
             }
         }
 
         private void txtUsername_KeyUp(object sender, KeyEventArgs e)
         {
-            if(txtUsername.Text.Trim().Length < 6)
+            if (txtUsername.Text.Trim().Length < 6)
             {
                 lblErorrUsername.Visible = true;
             }
@@ -245,17 +237,17 @@ namespace QuanLyCuaHangTienLoi
 
         private void btnWriteData_Click(object sender, EventArgs e)
         {
-            if(State == "Update")
+            if (State == "Update")
             {
-                if(txtUsername.Text.Trim().Length > 5)
+                if (txtUsername.Text.Trim().Length > 5)
                 {
-                    if(txtPassword.Text.Length > 5)
+                    if (txtPassword.Text.Length > 5)
                     {
-                        if(txtPassword.Text.Equals(txtPassword2.Text))
+                        if (txtPassword.Text.Equals(txtPassword2.Text))
                         {
                             query = "UPDATE Accounts SET Username = '" + txtUsername.Text.Trim() + "', Password = '" + txtPassword.Text + "' WHERE Username = '"
                                 + txtSearch.Text.Trim() + "'";
-                            if(ketNoiDB.ThucThiCauLenh(query))
+                            if (ketNoiDB.ThucThiCauLenh(query))
                             {
                                 State = "Reset";
                                 SetControls(State);
@@ -271,7 +263,7 @@ namespace QuanLyCuaHangTienLoi
                                 lblSuccess.Visible = false;
                             }
 
-                            if(dgvAccounts.DataSource != null)
+                            if (dgvAccounts.DataSource != null)
                             {
                                 GetData();
                             }
@@ -298,7 +290,7 @@ namespace QuanLyCuaHangTienLoi
                 }
 
             }
-            else if(State == "Insert")
+            else if (State == "Insert")
             {
                 if (txtUsername.Text.Trim().Length > 5)
                 {
@@ -348,15 +340,14 @@ namespace QuanLyCuaHangTienLoi
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if(txtUsername.Text != "")
+            if (txtUsername.Text != "")
             {
-                var x = MessageBox.Show("Bạn có muốn xóa tài khoản " + txtUsername.Text.Trim() + " không? " +
-                    "Xóa tài khoản sẽ kèm theo xóa thông tin của nhân viên này.",
-                    "Xóa", MessageBoxButtons.OKCancel);
-                if(x == DialogResult.OK)
+                _frmShowDialogQuestion = new frmShowDialogQuestion("Xoá", "Bạn có muốn xóa tài khoản " + txtUsername.Text.Trim() + " không? ", "Có", "Không");
+                var x = _frmShowDialogQuestion.ShowDialog();
+                if (x == DialogResult.Yes)
                 {
                     query = "DELETE FROM Accounts WHERE Username = '" + txtUsername.Text.Trim() + "'";
-                    if(ketNoiDB.ThucThiCauLenh(query))
+                    if (ketNoiDB.ThucThiCauLenh(query))
                     {
                         lblSuccess.Text = "Xóa tài khoản thành công!";
                         lblSuccess.Visible = true;
@@ -381,7 +372,8 @@ namespace QuanLyCuaHangTienLoi
             }
             else
             {
-                MessageBox.Show("Bạn chưa chọn tài khoản muốn xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _frmShowDialogQuestion = new frmShowDialogQuestion("Xoá", "Bạn chưa chọn tài khoản muốn xóa", "Thử lại", "");
+                _frmShowDialogQuestion.Show();
             }
         }
 
@@ -389,7 +381,7 @@ namespace QuanLyCuaHangTienLoi
         {
             int RowIndex = e.RowIndex;
 
-            if(State.Equals("Reset") && RowIndex >= 0 && RowIndex < dgvAccounts.Rows.Count - 1)
+            if (State.Equals("Reset") && RowIndex >= 0 && RowIndex < dgvAccounts.Rows.Count - 1)
             {
                 DataGridViewRow selected = dgvAccounts.Rows[RowIndex];
 
@@ -436,8 +428,9 @@ namespace QuanLyCuaHangTienLoi
                     {
                         GioiTinh = 0;
                     }
-                    query = "INSERT INTO Staffs VALUES('" + txtUsername.Text.Trim() + "', N'" + firstName.Trim() + "', N'" + lastName.Trim() + "', '"
-                        + Convert.ToDateTime(dtpNgaySinh.Value).ToString("dd/mm/yyyy") + "', '" + GioiTinh + "', N'" 
+                    query = "INSERT INTO Staffs(Username, Firstname, Lastname, Birthday, Gender, HomeTown, Phone) VALUES('" +
+                        txtUsername.Text.Trim() + "', N'" + firstName.Trim() + "', N'" + lastName.Trim() + "', '"
+                        + Convert.ToDateTime(dtpNgaySinh.Value).ToString("MM/dd/yyyy") + "', '" + GioiTinh + "', N'"
                         + txtQueQuan.Text.Trim() + "', '" + txtSdt.Text.Trim() + "')";
 
                     if (ketNoiDB.ThucThiCauLenh(query))
@@ -479,17 +472,22 @@ namespace QuanLyCuaHangTienLoi
             }
         }
 
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
         //
         //
         // Form quan ly tai khoan chu cua hang va quan ly
-        private void btnHienThiCCH_Click(object sender, EventArgs e)
+        /*private void btnHienThiCCH_Click(object sender, EventArgs e)
         {
             query = "SELECT Username FROM Accounts WHERE Type = 1";
             string username = ketNoiDB.GetValue(query);
             query = "SELECT Password FROM Accounts WHERE Type = 1";
             string password = ketNoiDB.GetValue(query);
 
-            if(username == null || password == null)
+            if (username == null || password == null)
             {
                 MessageBox.Show("Có lỗi sảy ra. Vui lòng thử lại sau");
                 return;
@@ -507,7 +505,7 @@ namespace QuanLyCuaHangTienLoi
 
         private void btnDoiMatKhauCCH_Click(object sender, EventArgs e)
         {
-            frmChangePassword _frmChangePassword = new frmChangePassword();
+            frmChangePassword2 _frmChangePassword = new frmChangePassword2();
             _frmChangePassword.Show();
         }
 
@@ -536,8 +534,8 @@ namespace QuanLyCuaHangTienLoi
 
         private void btnDoiMatKhauQL_Click(object sender, EventArgs e)
         {
-            frmChangePassword _frmChangePassword = new frmChangePassword();
+            frmChangePassword2 _frmChangePassword = new frmChangePassword2();
             _frmChangePassword.Show();
-        }
+        }*/
     }
 }

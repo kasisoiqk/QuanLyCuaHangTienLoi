@@ -11,11 +11,13 @@ using System.Windows.Forms;
 namespace QuanLyCuaHangTienLoi
 {
     public partial class frmLogin : Form
-    { 
+    {
         public frmLogin()
         {
             InitializeComponent();
         }
+
+        frmShowDialogQuestion _frmShowDialogQuestion;
 
         private void cboPhanQuyen_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -53,7 +55,7 @@ namespace QuanLyCuaHangTienLoi
             {
                 sql = "SELECT * FROM Accounts WHERE Username = '" + tk + "' AND Password = '" + mk + "' AND Type = 0";
             }
-            else if(cboPhanQuyen.SelectedIndex == 1)
+            else if (cboPhanQuyen.SelectedIndex == 1)
             {
                 sql = "SELECT * FROM Accounts WHERE Username = '" + tk + "' AND Password = '" + mk + "' AND Type = 1";
             }
@@ -70,32 +72,57 @@ namespace QuanLyCuaHangTienLoi
 
             if (val != null)
             {
-                MessageBox.Show("Đăng nhập thành công!", "Thông báo!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _frmShowDialogQuestion = new frmShowDialogQuestion("Thành công", "Đăng nhập thành công", "Tiếp tục", "");
+                var x = _frmShowDialogQuestion.ShowDialog();
 
-                if(cboPhanQuyen.SelectedIndex == 0)
+                if(x == DialogResult.Yes)
                 {
-                    frmMainAdmin _frmMainAdmin = new frmMainAdmin();
-                    _frmMainAdmin.Show();
+                    if (cboPhanQuyen.SelectedIndex == 0)
+                    {
+                        frmAdminMain _frmAdmiMainn = new frmAdminMain();
+                        _frmAdmiMainn.Show();
 
-                    this.Hide();
-                }
-                else if (cboPhanQuyen.SelectedIndex == 2)
-                {
-                    frmMainQuanLy _frmMainQuanLy = new frmMainQuanLy();
-                    _frmMainQuanLy.Show();
+                        this.Hide();
+                    }
+                    else if (cboPhanQuyen.SelectedIndex == 1)
+                    {
+                        frmChuCuaHangMain _frmChuCuaHangMain = new frmChuCuaHangMain();
+                        _frmChuCuaHangMain.Show();
 
-                    this.Hide();
+                        this.Hide();
+                    }
+                    else if (cboPhanQuyen.SelectedIndex == 2)
+                    {
+                        frmQuanLyMain _frmQuanLyMain = new frmQuanLyMain();
+                        _frmQuanLyMain.Show();
+
+                        this.Hide();
+                    }
+                    else
+                    {
+                        frmNhanVienMain _frmNhanVienMain = new frmNhanVienMain(txtUsername.Text);
+                        _frmNhanVienMain.Show();
+
+                        this.Hide();
+                    }
                 }
+
+                
             }
             else
             {
-                MessageBox.Show("Đăng nhập thất bại!", "Thông báo!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _frmShowDialogQuestion = new frmShowDialogQuestion("Thất bại", "Tên tài khoản hoặc mật khẩu không chính xác", "Thử lại", "");
+                _frmShowDialogQuestion.Show();
+
+                txtUsername.Text = "";
+                txtPassword.Text = "";
             }
         }
 
         private void lblQuenPass_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Vui lòng liên hệ admin để lấy lại tài khoản!", "Quên mật khẩu", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            _frmShowDialogQuestion = new frmShowDialogQuestion("Quên mật khẩu", "Bạn vui lòng liên hệ Admin để xác nhận danh tính và lấy lại tài khoản", "Đồng ý", "");
+            var x = _frmShowDialogQuestion.ShowDialog();
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -103,6 +130,21 @@ namespace QuanLyCuaHangTienLoi
             frmChangePassword _frmChangePassword = new frmChangePassword();
             _frmChangePassword.Show();
         }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            _frmShowDialogQuestion = new frmShowDialogQuestion("Thoát", "Bạn có muốn thoát chương trình không?", "Có", "Không");
+            var dr = _frmShowDialogQuestion.ShowDialog();
+            if (dr == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+            else
+            {
+
+            }
+        }
+
     }
 
 }

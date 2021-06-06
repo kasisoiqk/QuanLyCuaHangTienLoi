@@ -12,6 +12,7 @@ namespace QuanLyCuaHangTienLoi
 {
     public partial class frmChangePassword : Form
     {
+        frmShowDialogQuestion _frmShowDialogQuestion;
         KetNoiDB ketNoiDB = new KetNoiDB();
         string query;
 
@@ -28,6 +29,11 @@ namespace QuanLyCuaHangTienLoi
             lblErrorPassword.Visible = false;
             lblErrorPassword2.Visible = false;
 
+            txtUsername.Text = "";
+            txtUsernameNew.Text = "";
+            txtPassword.Text = "";
+            txtPasswordNew.Text = "";
+            txtPassword2.Text = "";
         }
 
         private void cboPhanQuyen_SelectedValueChanged(object sender, EventArgs e)
@@ -94,56 +100,74 @@ namespace QuanLyCuaHangTienLoi
         {
             int type = cboPhanQuyen.SelectedIndex;
 
-            if(type == -1)
+            if (type == -1)
             {
-                MessageBox.Show("Bạn chưa lựa chọn phân quyền", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _frmShowDialogQuestion = new frmShowDialogQuestion("Lỗi", "Bạn chưa lựa chọn phân quyền", "Đồng ý", "");
+                _frmShowDialogQuestion.ShowDialog();
+                InitUI();
                 return;
             }
 
             query = "SELECT * FROM Accounts WHERE Username = '" + txtUsername.Text.Trim() + "' AND Password = '" + txtPassword.Text +
                 "' AND Type = " + type;
-            
 
-            if(ketNoiDB.GetValue(query) != null)
+
+            if (ketNoiDB.GetValue(query) != null)
             {
-                if(txtUsernameNew.Text.Trim().Length < 6)
+                if (txtUsernameNew.Text.Trim().Length < 6)
                 {
-                    MessageBox.Show("Tên tài khoản mới phải dài hơn 5 ký tự!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    _frmShowDialogQuestion = new frmShowDialogQuestion("Lỗi", "Tên tài khoản mới phải dài hơn 5 ký tự", "Thử lại", "");
+                    _frmShowDialogQuestion.ShowDialog();
                     return;
                 }
-                else if(txtPasswordNew.Text.Length < 6)
+                else if (txtPasswordNew.Text.Length < 6)
                 {
-                    MessageBox.Show("Mật khẩu mới phải dài hơn 5 ký tự!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    _frmShowDialogQuestion = new frmShowDialogQuestion("Lỗi", "Mật khẩu mới phải dài hơn 5 ký tự", "Thử lại", "");
+                    _frmShowDialogQuestion.ShowDialog();
                     return;
                 }
-                else if(!txtPassword2.Text.Equals(txtPasswordNew.Text))
+                else if (!txtPassword2.Text.Equals(txtPasswordNew.Text))
                 {
-                    MessageBox.Show("Mật khẩu nhập lại khác mật khẩu nhập mới đã nhập trước đó!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    _frmShowDialogQuestion = new frmShowDialogQuestion("Lỗi", "Mật khẩu nhập lại khác mật khẩu nhập mới đã nhập trước đó!", "Thử lại", "");
+                    _frmShowDialogQuestion.ShowDialog();
                     return;
                 }
 
-                if(lblErrorUsername.Visible || lblErrorPassword.Visible || lblErrorPassword2.Visible)
+                if (lblErrorUsername.Visible || lblErrorPassword.Visible || lblErrorPassword2.Visible)
                 {
-                    MessageBox.Show("Bạn nhập ký tự không hợp lệ. Vui lòng nhập lại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    _frmShowDialogQuestion = new frmShowDialogQuestion("Lỗi", "Bạn nhập ký tự không hợp lệ. Vui lòng nhập lại!", "Thử lại", "");
+                    _frmShowDialogQuestion.ShowDialog();
                 }
                 else
                 {
                     query = "UPDATE Accounts SET Username = '" + txtUsernameNew.Text.Trim() + "', Password = '" + txtPasswordNew.Text
                         + "' WHERE Username = '" + txtUsername.Text.Trim() + "' AND Password = '" + txtPassword.Text + "' AND Type = " + type;
 
-                    if(ketNoiDB.ThucThiCauLenh(query))
+                    if (ketNoiDB.ThucThiCauLenh(query))
                     {
-                        MessageBox.Show("Thay đổi mật khẩu thành công", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        _frmShowDialogQuestion = new frmShowDialogQuestion("Thành công", "Thay đổi mật khẩu thành công!", "Quay lại trang", "Ở lại");
+                        var dr = _frmShowDialogQuestion.ShowDialog();
+
+                        if(dr == DialogResult.Yes)
+                        {
+                            this.Close();
+                        }
+
+                        InitUI();
                     }
                     else
                     {
-                        MessageBox.Show("Có lỗi sảy ra. Vui lòng thử lại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        _frmShowDialogQuestion = new frmShowDialogQuestion("Lỗi", "Có lỗi sảy ra. Vui lòng thử lại!", "Thử lại", "");
+                        _frmShowDialogQuestion.ShowDialog();
                     }
                 }
             }
             else
             {
-                MessageBox.Show("Bạn nhập sai tài khoản hoặc mật khẩu", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _frmShowDialogQuestion = new frmShowDialogQuestion("Lỗi", "Bạn nhập sai tài khoản hoặc mật khẩu", "Thử lại", "");
+                _frmShowDialogQuestion.ShowDialog();
+
+                InitUI();
             }
         }
 

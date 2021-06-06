@@ -33,6 +33,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.WinForms, Version=0.9.7.1, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.WinForms.0.9.7.1\lib\net45\LiveCharts.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
     </Reference>
@@ -43,12 +52,16 @@
       <HintPath>..\packages\Microsoft.Practices.ObjectBuilder.dll.3.1.0\lib\2.0\Microsoft.Practices.ObjectBuilder.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlClient, Version=4.6.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SqlClient.4.8.2\lib\net461\System.Data.SqlClient.dll</HintPath>
     </Reference>
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,13 +71,39 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmAdminMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdminMain.Designer.cs">
+      <DependentUpon>frmAdminMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAdminQLTKNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdminQLTKNhanVien.Designer.cs">
+      <DependentUpon>frmAdminQLTKNhanVien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAdminQLTKQuanLy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdminQLTKQuanLy.Designer.cs">
+      <DependentUpon>frmAdminQLTKQuanLy.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmChangePassword.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmChangePassword.Designer.cs">
       <DependentUpon>frmChangePassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmChuCuaHangMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChuCuaHangMain.Designer.cs">
+      <DependentUpon>frmChuCuaHangMain.cs</DependentUpon>
     </Compile>
     <Compile Include="frmInput2.cs">
       <SubType>Form</SubType>
@@ -78,23 +117,110 @@
     <Compile Include="frmLogin.Designer.cs">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmMainQuanLy.cs">
+    <Compile Include="frmAdminQLTKChuCuaHang.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMainQuanLy.Designer.cs">
-      <DependentUpon>frmMainQuanLy.cs</DependentUpon>
+    <Compile Include="frmAdminQLTKChuCuaHang.Designer.cs">
+      <DependentUpon>frmAdminQLTKChuCuaHang.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmMainAdmin.cs">
+    <Compile Include="frmNhanVienMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMainAdmin.Designer.cs">
-      <DependentUpon>frmMainAdmin.cs</DependentUpon>
+    <Compile Include="frmNhanVienMain.Designer.cs">
+      <DependentUpon>frmNhanVienMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNhanVienThanhToanSp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNhanVienThanhToanSp.Designer.cs">
+      <DependentUpon>frmNhanVienThanhToanSp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNhanVienXemHDTT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNhanVienXemHDTT.Designer.cs">
+      <DependentUpon>frmNhanVienXemHDTT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmQuanLyMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmQuanLyMain.Designer.cs">
+      <DependentUpon>frmQuanLyMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmQuanLyQLNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmQuanLyQLNhanVien.Designer.cs">
+      <DependentUpon>frmQuanLyQLNhanVien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmQuanLyQLNhapSp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmQuanLyQLNhapSp.Designer.cs">
+      <DependentUpon>frmQuanLyQLNhapSp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmQuanLyQLSp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmQuanLyQLSp.Designer.cs">
+      <DependentUpon>frmQuanLyQLSp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmQuanLyXuatSp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmQuanLyXuatSp.Designer.cs">
+      <DependentUpon>frmQuanLyXuatSp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmShowDialogQuestion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmShowDialogQuestion.Designer.cs">
+      <DependentUpon>frmShowDialogQuestion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmThongTinCuaHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmThongTinCuaHang.Designer.cs">
+      <DependentUpon>frmThongTinCuaHang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTimKiem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTimKiem.Designer.cs">
+      <DependentUpon>frmTimKiem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmXemDoanhThu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmXemDoanhThu.Designer.cs">
+      <DependentUpon>frmXemDoanhThu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmXemHoaDonNhapXuat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmXemHoaDonNhapXuat.Designer.cs">
+      <DependentUpon>frmXemHoaDonNhapXuat.cs</DependentUpon>
     </Compile>
     <Compile Include="KetNoiDB.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmAdminMain.resx">
+      <DependentUpon>frmAdminMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAdminQLTKChuCuaHang.resx">
+      <DependentUpon>frmAdminQLTKChuCuaHang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAdminQLTKNhanVien.resx">
+      <DependentUpon>frmAdminQLTKNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAdminQLTKQuanLy.resx">
+      <DependentUpon>frmAdminQLTKQuanLy.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmChangePassword.resx">
       <DependentUpon>frmChangePassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmChuCuaHangMain.resx">
+      <DependentUpon>frmChuCuaHangMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmInput2.resx">
       <DependentUpon>frmInput2.cs</DependentUpon>
@@ -102,11 +228,44 @@
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMainQuanLy.resx">
-      <DependentUpon>frmMainQuanLy.cs</DependentUpon>
+    <EmbeddedResource Include="frmNhanVienMain.resx">
+      <DependentUpon>frmNhanVienMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMainAdmin.resx">
-      <DependentUpon>frmMainAdmin.cs</DependentUpon>
+    <EmbeddedResource Include="frmNhanVienThanhToanSp.resx">
+      <DependentUpon>frmNhanVienThanhToanSp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNhanVienXemHDTT.resx">
+      <DependentUpon>frmNhanVienXemHDTT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmQuanLyMain.resx">
+      <DependentUpon>frmQuanLyMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmQuanLyQLNhanVien.resx">
+      <DependentUpon>frmQuanLyQLNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmQuanLyQLNhapSp.resx">
+      <DependentUpon>frmQuanLyQLNhapSp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmQuanLyQLSp.resx">
+      <DependentUpon>frmQuanLyQLSp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmQuanLyXuatSp.resx">
+      <DependentUpon>frmQuanLyXuatSp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmShowDialogQuestion.resx">
+      <DependentUpon>frmShowDialogQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmThongTinCuaHang.resx">
+      <DependentUpon>frmThongTinCuaHang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTimKiem.resx">
+      <DependentUpon>frmTimKiem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmXemDoanhThu.resx">
+      <DependentUpon>frmXemDoanhThu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmXemHoaDonNhapXuat.resx">
+      <DependentUpon>frmXemHoaDonNhapXuat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -118,6 +277,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -148,6 +308,41 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon-chucuahang.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nhanvien.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\nhaphang.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Picture17.png" />
+    <None Include="Resources\Picture16.png" />
+    <None Include="Resources\Picture15.png" />
+    <None Include="Resources\Picture14.png" />
+    <None Include="Resources\icon-quanly1.png" />
+    <Content Include="Resources\iconNavbar\Picture1.png" />
+    <Content Include="Resources\iconNavbar\Picture2.png" />
+    <Content Include="Resources\iconNavbar\Picture3.png" />
+    <None Include="Resources\Picture13.png" />
+    <None Include="Resources\Picture12.png" />
+    <None Include="Resources\Picture11.png" />
+    <None Include="Resources\Picture10.png" />
+    <None Include="Resources\Picture9.png" />
+    <None Include="Resources\Picture8.png" />
+    <None Include="Resources\Picture7.png" />
+    <None Include="Resources\InfoStore.png" />
+    <None Include="Resources\Picture63.png" />
+    <None Include="Resources\Picture62.png" />
+    <None Include="Resources\Picture61.png" />
+    <None Include="Resources\Picture6.png" />
+    <None Include="Resources\Picture5.png" />
+    <None Include="Resources\Picture41.png" />
+    <None Include="Resources\Picture4.png" />
+    <None Include="Resources\Main.png" />
+    <None Include="Resources\Picture3.png" />
+    <None Include="Resources\Picture2.png" />
+    <None Include="Resources\Picture1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
