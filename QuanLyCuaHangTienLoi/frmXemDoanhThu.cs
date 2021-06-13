@@ -22,6 +22,7 @@ namespace QuanLyCuaHangTienLoi
 
             query = "SELECT * FROM Bill LEFT JOIN Staffs ON Bill.IDStaff = Staffs.ID";
             GetData(query);
+
         }
 
         public void GetData(string query)
@@ -48,8 +49,13 @@ namespace QuanLyCuaHangTienLoi
             LoaiGD.ColumnName = "LoaiGD";
             ds.Tables[0].Columns.Add(LoaiGD);
 
+            DataColumn TotalPricesView = new DataColumn();
+            TotalPricesView.ColumnName = "TotalPricesView";
+            ds.Tables[0].Columns.Add(TotalPricesView);
+
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
+                ds.Tables[0].Rows[i]["TotalPricesView"] = int.Parse(ds.Tables[0].Rows[i]["TotalPrices"].ToString()).ToString("#,##0");
                 ds.Tables[0].Rows[i]["MaHD"] = "HD" + ds.Tables[0].Rows[i]["ID"];
                 ds.Tables[0].Rows[i]["Date"] = Convert.ToDateTime(ds.Tables[0].Rows[i]["DateCheckIn"]).ToString("dd/MM/yyyy");
                 ds.Tables[0].Rows[i]["Time"] = Convert.ToDateTime(ds.Tables[0].Rows[i]["DateCheckIn"]).ToString("HH:mm:ss");
@@ -73,6 +79,31 @@ namespace QuanLyCuaHangTienLoi
             dgvBills.DataSource = ds.Tables[0];
 
             lblTongSo.Text = "Tổng số: " + ds.Tables[0].Rows.Count + " bản ghi.";
+        }
+
+        private void cboLoaiHoaDon_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboLoaiHoaDon.SelectedIndex == 0 && chbThoiGian.Checked) query = "SELECT * FROM Bill LEFT JOIN Staffs ON Bill.IDStaff = Staffs.ID";
+            else if (cboLoaiHoaDon.SelectedIndex == 0 && chbThoiGian.Checked == false) query = "SELECT * FROM Bill LEFT JOIN Staffs ON Bill.IDStaff = Staffs.ID";
+            else query = "SELECT * FROM Bill LEFT JOIN Staffs ON Bill.IDStaff = Staffs.ID WHERE Bill.Type = " + (cboLoaiHoaDon.SelectedIndex-1);
+            if (chbThoiGian.Checked) query += " AND (DateCheckIn BETWEEN '" + Convert.ToDateTime(dtpThoiGianTu.Value).ToString("MM/dd/yyyy") +
+                     "' AND '" + Convert.ToDateTime(dtpThoiGianDen.Value).ToString("MM/dd/yyyy") + "')";
+            GetData(query);
+        }
+
+        private void chbThoiGian_CheckedChanged(object sender, EventArgs e)
+        {
+            cboLoaiHoaDon_SelectedIndexChanged(sender, e);
+        }
+
+        private void dtpThoiGianTu_ValueChanged(object sender, EventArgs e)
+        {
+            cboLoaiHoaDon_SelectedIndexChanged(sender, e);
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

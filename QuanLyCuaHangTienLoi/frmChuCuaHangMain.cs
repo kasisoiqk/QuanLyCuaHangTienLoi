@@ -80,5 +80,25 @@ namespace QuanLyCuaHangTienLoi
             if (activeForm != null) activeForm.Close();
             btnXong.Visible = false;
         }
+
+        private void btnQLTK_Click(object sender, EventArgs e)
+        {
+            openChildForm(new frmXemDoanhThu());
+
+            //
+            // To do
+            //
+            hideSubMenu();
+        }
+
+        private void btn_Click(object sender, EventArgs e)
+        {
+            openChildForm(new frmChuCuaHangThanhToanLuong());
+
+            //
+            // To do
+            //
+            hideSubMenu();
+        }
     }
 }

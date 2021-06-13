@@ -43,6 +43,19 @@ namespace QuanLyCuaHangTienLoi
             }
         }
 
+        string idSalary;
+        public void SalaryHandle()
+        {
+            KetNoiDB ketNoiDB = new KetNoiDB();
+            string time = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+            string query = "SELECT ID FROM Staffs WHERE Username = '" + txtUsername.Text.Trim() + "'";
+            string id = ketNoiDB.GetValue(query);
+            query = "INSERT INTO Salarys(IDStaff, TimeIn, Status) VALUES(" + id + ", '" + time + "', 0)";
+            ketNoiDB.ThucThiCauLenh(query);
+            query = "SELECT ID FROM Salarys WHERE IDStaff = " + id + " AND TimeIn = '" + time + "'";
+            idSalary = ketNoiDB.GetValue(query);
+        }
+
         private void btnLogin_Click(object sender, EventArgs e)
         {
             KetNoiDB ketNoiDB = new KetNoiDB();
@@ -74,6 +87,7 @@ namespace QuanLyCuaHangTienLoi
             {
                 _frmShowDialogQuestion = new frmShowDialogQuestion("Thành công", "Đăng nhập thành công", "Tiếp tục", "");
                 var x = _frmShowDialogQuestion.ShowDialog();
+                x = DialogResult.Yes;
 
                 if(x == DialogResult.Yes)
                 {
@@ -100,7 +114,8 @@ namespace QuanLyCuaHangTienLoi
                     }
                     else
                     {
-                        frmNhanVienMain _frmNhanVienMain = new frmNhanVienMain(txtUsername.Text);
+                        SalaryHandle();
+                        frmNhanVienMain _frmNhanVienMain = new frmNhanVienMain(txtUsername.Text, idSalary);
                         _frmNhanVienMain.Show();
 
                         this.Hide();

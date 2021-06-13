@@ -12,17 +12,18 @@ namespace QuanLyCuaHangTienLoi
 {
     public partial class frmNhanVienMain : Form
     {
-        private string username;
+        private string username, idSalary;
         string query;
         string State = "Reset";
         KetNoiDB ketNoiDB = new KetNoiDB();
 
-        public frmNhanVienMain(string username)
+        public frmNhanVienMain(string username, string idSalary)
         {
             InitializeComponent();
             hideSubMenu();
 
             this.username = username;
+            this.idSalary = idSalary;
 
             GetNameStaffs();
         }
@@ -75,6 +76,13 @@ namespace QuanLyCuaHangTienLoi
             showSubMenu(panelTTSPSubMenu);
         }
 
+        public void SalaryHandle()
+        {
+            query = "UPDATE Salarys SET TimeOut = '" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") + "'"
+                + " WHERE ID = " + idSalary;
+            ketNoiDB.ThucThiCauLenh(query);
+        }
+
         private void btnExit_Click(object sender, EventArgs e)
         {
             frmShowDialogQuestion _frmShowDialogQuestion = new frmShowDialogQuestion("Đăng xuất", "Bạn có muốn đăng xuất không?", "Có", "Không");
@@ -82,6 +90,8 @@ namespace QuanLyCuaHangTienLoi
 
             if (x == DialogResult.Yes)
             {
+                SalaryHandle();
+
                 this.Close();
 
                 frmLogin _frmLogin = new frmLogin();

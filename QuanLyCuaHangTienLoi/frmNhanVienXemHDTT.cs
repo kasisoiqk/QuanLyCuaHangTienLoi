@@ -44,8 +44,13 @@ namespace QuanLyCuaHangTienLoi
             NhanVienTT.ColumnName = "NhanVienTT";
             ds.Tables[0].Columns.Add(NhanVienTT);
 
+            DataColumn TotalPricesView = new DataColumn();
+            TotalPricesView.ColumnName = "TotalPricesView";
+            ds.Tables[0].Columns.Add(TotalPricesView);
+
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
+                ds.Tables[0].Rows[i]["TotalPricesView"] = int.Parse(ds.Tables[0].Rows[i]["TotalPrices"].ToString()).ToString("#,##0");
                 ds.Tables[0].Rows[i]["MaHD"] = "HD" + ds.Tables[0].Rows[i]["ID"];
                 ds.Tables[0].Rows[i]["Date"] = Convert.ToDateTime(ds.Tables[0].Rows[i]["DateCheckIn"]).ToString("dd/MM/yyyy");
                 ds.Tables[0].Rows[i]["Time"] = Convert.ToDateTime(ds.Tables[0].Rows[i]["DateCheckIn"]).ToString("HH:mm:ss");
@@ -99,8 +104,12 @@ namespace QuanLyCuaHangTienLoi
                 query = "SELECT * FROM Bill INNER JOIN Staffs ON Bill.IDStaff = Staffs.ID AND (DateCheckIn BETWEEN '" + 
                     Convert.ToDateTime(dtpThoiGianTu.Value).ToString("MM/dd/yyyy HH:mm:ss") +
                      "' AND '" + Convert.ToDateTime(dtpThoiGianDen.Value).ToString("MM/dd/yyyy HH:mm:ss") + "')";
-                GetData(query);
             }
+            else
+            {
+                query = "SELECT * FROM Bill INNER JOIN Staffs ON Bill.IDStaff = Staffs.ID";
+            }
+            GetData(query);
         }
 
         private void dtpThoiGianTu_ValueChanged(object sender, EventArgs e)
@@ -131,8 +140,13 @@ namespace QuanLyCuaHangTienLoi
                 MaSP.ColumnName = "MaSP";
                 ds.Tables[0].Columns.Add(MaSP);
 
+                DataColumn PriceView = new DataColumn();
+                PriceView.ColumnName = "PriceView";
+                ds.Tables[0].Columns.Add(PriceView);
+
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
+                    ds.Tables[0].Rows[i]["PriceView"] = int.Parse(ds.Tables[0].Rows[i]["Price"].ToString()).ToString("#,##0");
                     ds.Tables[0].Rows[i]["MaSP"] = "SP" + ds.Tables[0].Rows[i]["IDProduct"];
                 }
 

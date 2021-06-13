@@ -45,8 +45,18 @@ namespace QuanLyCuaHangTienLoi
             MaSP.ColumnName = "MaSP";
             ds.Tables[0].Columns.Add(MaSP);
 
+            DataColumn ImportPriceView = new DataColumn();
+            ImportPriceView.ColumnName = "ImportPriceView";
+            ds.Tables[0].Columns.Add(ImportPriceView);
+
+            DataColumn PriceView = new DataColumn();
+            PriceView.ColumnName = "PriceView";
+            ds.Tables[0].Columns.Add(PriceView);
+
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
+                ds.Tables[0].Rows[i]["ImportPriceView"] = int.Parse(ds.Tables[0].Rows[i]["ImportPrice"].ToString()).ToString("#,##0");
+                ds.Tables[0].Rows[i]["PriceView"] = int.Parse(ds.Tables[0].Rows[i]["Price"].ToString()).ToString("#,##0");
                 ds.Tables[0].Rows[i]["MaSP"] = "SP" + ds.Tables[0].Rows[i]["ID"];
             }
 

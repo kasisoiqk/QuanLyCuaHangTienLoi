@@ -16,7 +16,8 @@ namespace QuanLyCuaHangTienLoi
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmQuanLyMain());
+            Application.Run(new frmLogin());
         }
+
     }
 }

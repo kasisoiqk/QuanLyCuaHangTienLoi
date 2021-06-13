@@ -43,8 +43,13 @@ namespace QuanLyCuaHangTienLoi
             Time.ColumnName = "Time";
             ds.Tables[0].Columns.Add(Time);
 
+            DataColumn TotalPricesView = new DataColumn();
+            TotalPricesView.ColumnName = "TotalPricesView";
+            ds.Tables[0].Columns.Add(TotalPricesView);
+
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
+                ds.Tables[0].Rows[i]["TotalPricesView"] = int.Parse(ds.Tables[0].Rows[i]["TotalPrices"].ToString()).ToString("#,##0");
                 ds.Tables[0].Rows[i]["MaHD"] = "HD" + ds.Tables[0].Rows[i]["ID"];
                 ds.Tables[0].Rows[i]["Date"] = Convert.ToDateTime(ds.Tables[0].Rows[i]["DateCheckIn"]).ToString("dd/MM/yyyy");
                 ds.Tables[0].Rows[i]["Time"] = Convert.ToDateTime(ds.Tables[0].Rows[i]["DateCheckIn"]).ToString("HH:mm:ss");
@@ -114,8 +119,25 @@ namespace QuanLyCuaHangTienLoi
                 MaSP.ColumnName = "MaSP";
                 ds.Tables[0].Columns.Add(MaSP);
 
-                for(int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                DataColumn ImportPriceView = new DataColumn();
+                ImportPriceView.ColumnName = "ImportPriceView";
+                ds.Tables[0].Columns.Add(ImportPriceView);
+
+                DataColumn ExportPriceView = new DataColumn();
+                ExportPriceView.ColumnName = "ExportPriceView";
+                ds.Tables[0].Columns.Add(ExportPriceView);
+
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
+                    ds.Tables[0].Rows[i]["ImportPriceView"] = int.Parse(ds.Tables[0].Rows[i]["ImportPrice"].ToString()).ToString("#,##0");
+                    try
+                    {
+                        ds.Tables[0].Rows[i]["ExportPriceView"] = int.Parse(ds.Tables[0].Rows[i]["ExportPrice"].ToString()).ToString("#,##0");
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
                     ds.Tables[0].Rows[i]["MaSP"] = "SP" + ds.Tables[0].Rows[i]["IDProduct"];
                 }
 

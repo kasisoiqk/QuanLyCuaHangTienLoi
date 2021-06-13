@@ -38,10 +38,10 @@ namespace QuanLyCuaHangTienLoi
             for (int i = 0; i < dgvProducts.RowCount - 1; i++)
             {
                 DataGridViewRow selected = dgvProducts.Rows[i];
-                price += long.Parse(selected.Cells["Price"].Value.ToString()) * long.Parse(selected.Cells["Amount"].Value.ToString());
+                price += long.Parse(selected.Cells["Price"].Value.ToString().Replace(",", "")) * long.Parse(selected.Cells["Amount"].Value.ToString());
 
             }
-            lblThanhTien.Text = price.ToString();
+            lblThanhTien.Text = price.ToString("#,##0");
         }
 
         public void ResetData()
@@ -83,6 +83,15 @@ namespace QuanLyCuaHangTienLoi
                 DataColumn colID = new DataColumn();
                 colID.ColumnName = "MaSanPham";
                 ds.Tables[0].Columns.Add(colID);
+
+                DataColumn PriceView = new DataColumn();
+                PriceView.ColumnName = "PriceView";
+                ds.Tables[0].Columns.Add(PriceView);
+
+                for(int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    ds.Tables[0].Rows[i]["PriceView"] = int.Parse(ds.Tables[0].Rows[i]["Price"].ToString()).ToString("#,##0");
+                }
 
                 ds.Tables[0].Rows[0]["MaSanPham"] = "SP" + id[1];
 
@@ -200,9 +209,9 @@ namespace QuanLyCuaHangTienLoi
             if (x != DialogResult.Yes) return;
 
             string time = Convert.ToDateTime(DateTime.Now).ToString("MM/dd/yyyy HH:mm:ss");
-            query = "INSERT INTO Bill(IDStaff, DateCheckIn, TotalPrices, Type) VALUES(" + idStaff + ", '" + time + "', " + int.Parse(lblThanhTien.Text) + ", 0)";
+            query = "INSERT INTO Bill(IDStaff, DateCheckIn, TotalPrices, Type) VALUES(" + idStaff + ", '" + time + "', " + int.Parse(lblThanhTien.Text.Replace(",", "")) + ", 0)";
             ketNoiDB.ThucThiCauLenh(query);
-            query = "SELECT ID FROM Bill WHERE DateCheckIn = '" + time + "' AND TotalPrices = " + int.Parse(lblThanhTien.Text) + " AND Type = 0";
+            query = "SELECT ID FROM Bill WHERE DateCheckIn = '" + time + "' AND TotalPrices = " + int.Parse(lblThanhTien.Text.Replace(",","")) + " AND Type = 0";
             string idBill = ketNoiDB.GetValue(query);
 
             for (int i = 0; i < dgvProducts.RowCount - 1; i++)
@@ -211,7 +220,7 @@ namespace QuanLyCuaHangTienLoi
                 string MaSP = selected.Cells["MaSP"].Value.ToString();
                 string[] id = MaSP.Split('P');
                 int soLuong = int.Parse(selected.Cells["Amount"].Value.ToString());
-                int gia = int.Parse(selected.Cells["Price"].Value.ToString());
+                int gia = int.Parse(selected.Cells["Price"].Value.ToString().Replace(",",""));
 
                 query = "SELECT RemainAmount FROM Products WHERE ID = " + id[1];
                 int remainAmount = int.Parse(ketNoiDB.GetValue(query));

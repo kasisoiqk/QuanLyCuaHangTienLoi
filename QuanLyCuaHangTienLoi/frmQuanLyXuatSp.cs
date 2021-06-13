@@ -24,10 +24,10 @@ namespace QuanLyCuaHangTienLoi
             for (int i = 0; i < dgvProducts.RowCount - 1; i++)
             {
                 DataGridViewRow selected = dgvProducts.Rows[i];
-                price += long.Parse(selected.Cells["Price"].Value.ToString()) * long.Parse(selected.Cells["Amount"].Value.ToString());
+                price += long.Parse(selected.Cells["Price"].Value.ToString().Replace(",","")) * long.Parse(selected.Cells["Amount"].Value.ToString());
 
             }
-            lblThanhTien.Text = price.ToString();
+            lblThanhTien.Text = price.ToString("#,##0");
         }
 
         public void SetControls(string State)
@@ -171,7 +171,17 @@ namespace QuanLyCuaHangTienLoi
                 colID.ColumnName = "MaSP";
                 ds.Tables[0].Columns.Add(colID);
 
+                DataColumn ImportPriceView = new DataColumn();
+                ImportPriceView.ColumnName = "ImportPriceView";
+                ds.Tables[0].Columns.Add(ImportPriceView);
+
+                DataColumn PriceView = new DataColumn();
+                PriceView.ColumnName = "PriceView";
+                ds.Tables[0].Columns.Add(PriceView);
+
                 ds.Tables[0].Rows[0]["MaSP"] = "SP" + id[1];
+                ds.Tables[0].Rows[0]["ImportPriceView"] = int.Parse(ds.Tables[0].Rows[0]["ImportPrice"].ToString()).ToString("#,##0");
+                ds.Tables[0].Rows[0]["PriceView"] = int.Parse(ds.Tables[0].Rows[0]["Price"].ToString()).ToString("#,##0");
 
                 dgvProduct.AutoGenerateColumns = false;
                 dgvProduct.DataSource = ds.Tables[0];
@@ -186,8 +196,8 @@ namespace QuanLyCuaHangTienLoi
 
         private bool checkPrice()
         {
-            int giaNhap = int.Parse(dgvProduct.Rows[0].Cells["GiaNhap"].Value.ToString());
-            int giaXuat = int.Parse(nudGiaXuat.Value.ToString());
+            int giaNhap = int.Parse(dgvProduct.Rows[0].Cells["GiaNhap"].Value.ToString().Replace(",",""));
+            int giaXuat = int.Parse(nudGiaXuat.Value.ToString().Replace(",", ""));
             if (giaXuat <= giaNhap)
             {
                 _frmShowDialogQuestion = new frmShowDialogQuestion("Thông báo", "Giá xuất phải lớn hơn giá nhập! Bạn có chắc chắn xác nhận tiếp tục như vậy không? ", "Có", "Không");
@@ -236,7 +246,7 @@ namespace QuanLyCuaHangTienLoi
                         dgvProducts[1, RowIndex].Value = TenSP;
                         dgvProducts[2, RowIndex].Value = NhaCungCap;
                         dgvProducts[3, RowIndex].Value = LoaiSP;
-                        dgvProducts[4, RowIndex].Value = GiaXuat;
+                        dgvProducts[4, RowIndex].Value = int.Parse(GiaXuat).ToString("#,##0");
                         dgvProducts[5, RowIndex].Value = SoLuong;
 
                         State = "Reset";
@@ -292,7 +302,7 @@ namespace QuanLyCuaHangTienLoi
 
                 string MaSP = selected.Cells["ID"].Value.ToString();
                 int SoLuong = int.Parse(selected.Cells["Amount"].Value.ToString());
-                int GiaXuat = int.Parse(selected.Cells["Price"].Value.ToString());
+                int GiaXuat = int.Parse(selected.Cells["Price"].Value.ToString().Replace(",", ""));
 
                 nudSoLuong.Value = SoLuong;
                 nudGiaXuat.Value = GiaXuat;
@@ -323,9 +333,9 @@ namespace QuanLyCuaHangTienLoi
             if (x != DialogResult.Yes) return;
 
             string time = Convert.ToDateTime(DateTime.Now).ToString("MM/dd/yyyy HH:mm:ss");
-            query = "INSERT INTO Bill(DateCheckIn, TotalPrices, Type) VALUES('" + time + "', " + int.Parse(lblThanhTien.Text) + ", 2)";
+            query = "INSERT INTO Bill(DateCheckIn, TotalPrices, Type) VALUES('" + time + "', " + int.Parse(lblThanhTien.Text.Replace(",","")) + ", 2)";
             ketNoiDB.ThucThiCauLenh(query);
-            query = "SELECT ID FROM Bill WHERE DateCheckIn = '" + time + "' AND TotalPrices = " + int.Parse(lblThanhTien.Text) + " AND Type = 2";
+            query = "SELECT ID FROM Bill WHERE DateCheckIn = '" + time + "' AND TotalPrices = " + int.Parse(lblThanhTien.Text.Replace(",", "")) + " AND Type = 2";
             string idBill = ketNoiDB.GetValue(query);
 
             for (int i = 0; i < dgvProducts.RowCount - 1; i++)
@@ -334,7 +344,7 @@ namespace QuanLyCuaHangTienLoi
                 string MaSP = selected.Cells["ID"].Value.ToString();
                 string[] id = MaSP.Split('P');
                 int soLuong = int.Parse(selected.Cells["Amount"].Value.ToString());
-                int giaXuat = int.Parse(selected.Cells["Price"].Value.ToString());
+                int giaXuat = int.Parse(selected.Cells["Price"].Value.ToString().Replace(",",""));
 
                 query = "SELECT RemainAmount FROM Products WHERE ID = " + id[1];
                 int remainAmount = int.Parse(ketNoiDB.GetValue(query));

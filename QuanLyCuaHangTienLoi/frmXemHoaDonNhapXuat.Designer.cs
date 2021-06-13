@@ -309,7 +309,7 @@
             // TotalPrices
             // 
             this.TotalPrices.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.TotalPrices.DataPropertyName = "TotalPrices";
+            this.TotalPrices.DataPropertyName = "TotalPricesView";
             this.TotalPrices.HeaderText = "Tổng tiền (VND)";
             this.TotalPrices.MinimumWidth = 6;
             this.TotalPrices.Name = "TotalPrices";
@@ -326,7 +326,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(100)))));
             this.groupBox2.Controls.Add(this.lblLoaiGD);
@@ -460,7 +461,7 @@
             // Type
             // 
             this.Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Type.DataPropertyName = "LoaiSP";
+            this.Type.DataPropertyName = "Type";
             this.Type.HeaderText = "Loại sản phẩm";
             this.Type.Name = "Type";
             this.Type.ReadOnly = true;
@@ -468,7 +469,7 @@
             // ImportPrice
             // 
             this.ImportPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ImportPrice.DataPropertyName = "ImportPrice";
+            this.ImportPrice.DataPropertyName = "ImportPriceView";
             this.ImportPrice.HeaderText = "Giá nhập";
             this.ImportPrice.Name = "ImportPrice";
             this.ImportPrice.ReadOnly = true;
@@ -476,7 +477,7 @@
             // ExportPrice
             // 
             this.ExportPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ExportPrice.DataPropertyName = "ExportPrice";
+            this.ExportPrice.DataPropertyName = "ExportPriceView";
             this.ExportPrice.HeaderText = "Giá xuất";
             this.ExportPrice.Name = "ExportPrice";
             this.ExportPrice.ReadOnly = true;
