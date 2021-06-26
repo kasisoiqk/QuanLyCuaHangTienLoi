@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAdminMain));
             this.panelSideMenu = new System.Windows.Forms.Panel();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnThongTinCH = new System.Windows.Forms.Button();
@@ -42,10 +43,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelPlayer = new System.Windows.Forms.Panel();
+            this.btnXong = new System.Windows.Forms.Button();
             this.panelChildForm = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.btnXong = new System.Windows.Forms.Button();
             this.panelSideMenu.SuspendLayout();
             this.panelQLTKSubMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
@@ -282,6 +283,21 @@
             this.panelPlayer.Size = new System.Drawing.Size(1141, 60);
             this.panelPlayer.TabIndex = 1;
             // 
+            // btnXong
+            // 
+            this.btnXong.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnXong.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(35)))), ((int)(((byte)(53)))));
+            this.btnXong.FlatAppearance.BorderSize = 0;
+            this.btnXong.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnXong.Location = new System.Drawing.Point(486, 9);
+            this.btnXong.Name = "btnXong";
+            this.btnXong.Size = new System.Drawing.Size(149, 43);
+            this.btnXong.TabIndex = 3;
+            this.btnXong.Text = "Xong";
+            this.btnXong.UseVisualStyleBackColor = false;
+            this.btnXong.Visible = false;
+            this.btnXong.Click += new System.EventHandler(this.btnXong_Click);
+            // 
             // panelChildForm
             // 
             this.panelChildForm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(72)))), ((int)(((byte)(104)))));
@@ -317,21 +333,6 @@
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
-            // btnXong
-            // 
-            this.btnXong.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnXong.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(35)))), ((int)(((byte)(53)))));
-            this.btnXong.FlatAppearance.BorderSize = 0;
-            this.btnXong.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnXong.Location = new System.Drawing.Point(486, 9);
-            this.btnXong.Name = "btnXong";
-            this.btnXong.Size = new System.Drawing.Size(149, 43);
-            this.btnXong.TabIndex = 3;
-            this.btnXong.Text = "Xong";
-            this.btnXong.UseVisualStyleBackColor = false;
-            this.btnXong.Visible = false;
-            this.btnXong.Click += new System.EventHandler(this.btnXong_Click);
-            // 
             // frmAdminMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -343,10 +344,12 @@
             this.Controls.Add(this.panelSideMenu);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimumSize = new System.Drawing.Size(1067, 775);
             this.Name = "frmAdminMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Quản trị hệ thống";
             this.panelSideMenu.ResumeLayout(false);
             this.panelQLTKSubMenu.ResumeLayout(false);
             this.panelLogo.ResumeLayout(false);

@@ -171,6 +171,7 @@ namespace QuanLyCuaHangTienLoi
             this.Name = "frmInput2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Thêm tài khoản";
+            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

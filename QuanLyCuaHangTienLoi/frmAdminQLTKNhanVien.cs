@@ -466,6 +466,7 @@ namespace QuanLyCuaHangTienLoi
                     else
                     {
                         lblLoi.Text = "Có lỗi sảy ra, vui lòng thử lại! 2";
+                        lblLoi.Text = query;
                         lblLoi.Visible = true;
                     }
                 }

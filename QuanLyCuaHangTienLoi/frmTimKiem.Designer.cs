@@ -528,7 +528,7 @@
             // 
             // Type
             // 
-            this.Type.DataPropertyName = "Type";
+            this.Type.DataPropertyName = "NameCate";
             this.Type.HeaderText = "Loại sản phẩm";
             this.Type.MinimumWidth = 6;
             this.Type.Name = "Type";

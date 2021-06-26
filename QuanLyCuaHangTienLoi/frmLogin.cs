@@ -85,44 +85,37 @@ namespace QuanLyCuaHangTienLoi
 
             if (val != null)
             {
+                if (cboPhanQuyen.SelectedIndex == 0)
+                {
+                    frmAdminMain _frmAdmiMainn = new frmAdminMain();
+                    _frmAdmiMainn.Show();
+
+                    this.Hide();
+                }
+                else if (cboPhanQuyen.SelectedIndex == 1)
+                {
+                    frmChuCuaHangMain _frmChuCuaHangMain = new frmChuCuaHangMain();
+                    _frmChuCuaHangMain.Show();
+
+                    this.Hide();
+                }
+                else if (cboPhanQuyen.SelectedIndex == 2)
+                {
+                    frmQuanLyMain _frmQuanLyMain = new frmQuanLyMain();
+                    _frmQuanLyMain.Show();
+
+                    this.Hide();
+                }
+                else
+                {
+                    SalaryHandle();
+                    frmNhanVienMain _frmNhanVienMain = new frmNhanVienMain(txtUsername.Text, idSalary);
+                    _frmNhanVienMain.Show();
+
+                    this.Hide();
+                }
                 _frmShowDialogQuestion = new frmShowDialogQuestion("Thành công", "Đăng nhập thành công", "Tiếp tục", "");
                 var x = _frmShowDialogQuestion.ShowDialog();
-                x = DialogResult.Yes;
-
-                if(x == DialogResult.Yes)
-                {
-                    if (cboPhanQuyen.SelectedIndex == 0)
-                    {
-                        frmAdminMain _frmAdmiMainn = new frmAdminMain();
-                        _frmAdmiMainn.Show();
-
-                        this.Hide();
-                    }
-                    else if (cboPhanQuyen.SelectedIndex == 1)
-                    {
-                        frmChuCuaHangMain _frmChuCuaHangMain = new frmChuCuaHangMain();
-                        _frmChuCuaHangMain.Show();
-
-                        this.Hide();
-                    }
-                    else if (cboPhanQuyen.SelectedIndex == 2)
-                    {
-                        frmQuanLyMain _frmQuanLyMain = new frmQuanLyMain();
-                        _frmQuanLyMain.Show();
-
-                        this.Hide();
-                    }
-                    else
-                    {
-                        SalaryHandle();
-                        frmNhanVienMain _frmNhanVienMain = new frmNhanVienMain(txtUsername.Text, idSalary);
-                        _frmNhanVienMain.Show();
-
-                        this.Hide();
-                    }
-                }
-
-                
             }
             else
             {

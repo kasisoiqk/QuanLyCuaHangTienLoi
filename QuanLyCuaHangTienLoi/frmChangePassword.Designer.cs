@@ -29,6 +29,7 @@ namespace QuanLyCuaHangTienLoi
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmChangePassword));
             this.btnQuayLai = new System.Windows.Forms.Button();
             this.btnXacNhan = new System.Windows.Forms.Button();
             this.lblText = new System.Windows.Forms.Label();
@@ -299,6 +300,7 @@ namespace QuanLyCuaHangTienLoi
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmChangePassword";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

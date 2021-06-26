@@ -144,14 +144,39 @@ namespace QuanLyCuaHangTienLoi
                 PriceView.ColumnName = "PriceView";
                 ds.Tables[0].Columns.Add(PriceView);
 
+                DataColumn NameCate = new DataColumn();
+                NameCate.ColumnName = "NameCate";
+                ds.Tables[0].Columns.Add(NameCate);
+
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     ds.Tables[0].Rows[i]["PriceView"] = int.Parse(ds.Tables[0].Rows[i]["Price"].ToString()).ToString("#,##0");
                     ds.Tables[0].Rows[i]["MaSP"] = "SP" + ds.Tables[0].Rows[i]["IDProduct"];
+
+                    ds.Tables[0].Rows[i]["NameCate"] = ketNoiDB.GetValue("SELECT NameCate FROM Categorys WHERE ID = " + ds.Tables[0].Rows[i]["Type"]);
                 }
 
                 dgvBillInfo.AutoGenerateColumns = false;
                 dgvBillInfo.DataSource = ds.Tables[0];
+
+                query = "SELECT IDCustomer FROM Bill WHERE ID = " + id[1];
+                string val = ketNoiDB.GetValue(query);
+                if(val != null)
+                {
+                    try
+                    {
+                        int idCus = int.Parse(val);
+                        query = "SELECT * FROM Customers WHERE id = " + idCus;
+                        DataSet ds1 = ketNoiDB.GetDataSet(query);
+                        dgvCustomer.AutoGenerateColumns = false;
+                        dgvCustomer.DataSource = ds1.Tables[0];
+                    }
+                    catch(Exception ex)
+                    {
+                        dgvCustomer.DataSource = new DataTable();
+                    }
+                }
+                
             }
         }
     }

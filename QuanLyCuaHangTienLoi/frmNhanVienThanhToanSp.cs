@@ -25,11 +25,97 @@ namespace QuanLyCuaHangTienLoi
 
             query = "SELECT ID FROM Staffs WHERE Username = '" + username + "'";
             idStaff = ketNoiDB.GetValue(query);
+
+            cboLoaiSp.DropDownHeight = 106;
+            cboTenSp.DropDownHeight = 106;
+            loadCboLoaiSP();
+
+            query = "Select * from Products";
+            loadTenSP(query);
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        public void ResetData()
         {
-            this.Close();
+            cboLoaiSp.SelectedIndex = 0;
+            cboTenSp.SelectedIndex = 0;
+            nudSoLuong.Value = 0;
+            nudGia.Value = 0;
+            lblTongTien.Text = "...";
+        }
+
+        public void loadCboLoaiSP()
+        {
+
+            query = "Select NameCate from Categorys";
+            DataSet ds = ketNoiDB.GetDataSet(query);
+            DataRow dr = ds.Tables[0].NewRow();
+            dr["NameCate"] = "Tất cả";
+            ds.Tables[0].Rows.InsertAt(dr, 0);
+            cboLoaiSp.DataSource = ds.Tables[0];
+            cboLoaiSp.DisplayMember = "name";
+            cboLoaiSp.ValueMember = "NameCate";
+            cboLoaiSp.SelectedIndex = 0;
+        }
+
+        public void loadTenSP(string query)
+        {
+            DataSet ds = ketNoiDB.GetDataSet(query);
+            cboTenSp.DataSource = ds.Tables[0];
+            cboTenSp.DisplayMember = "name";
+            cboTenSp.ValueMember = "NameProduct";
+            cboTenSp.SelectedIndex = 0;
+        }
+        private void cboLoaiSp_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cboLoaiSp.SelectedIndex == 0)
+            {
+                query = "SELECT * FROM Products";
+            }
+            else
+            {
+                int type = int.Parse(ketNoiDB.GetValue("SELECT ID FROM Categorys WHERE NameCate = N'" + cboLoaiSp.Text + "'"));
+                query = "Select * from Products where Type=" + type;
+            }
+            loadTenSP(query);
+        }
+
+        bool check = true;
+        private void nudSoLuong_ValueChanged(object sender, EventArgs e)
+        {
+            if (!check) return;
+            query = "SELECT RemainAmount FROM Products WHERE NameProduct = N'" + cboTenSp.Text + "'";
+            int amount = int.Parse(ketNoiDB.GetValue(query));
+            if(nudSoLuong.Value > 0 && nudSoLuong.Value <= amount)
+            {
+                query = "SELECT Price FROM Products WHERE NameProduct = N'" + cboTenSp.Text + "'";
+                int giaBan = int.Parse(ketNoiDB.GetValue(query));
+                nudGia.Value = giaBan;
+
+                lblTongTien.Text = (nudSoLuong.Value * giaBan).ToString("#,##0");
+                btnThem.Enabled = true;
+            }
+            else if(nudSoLuong.Value <= 0)
+            {
+                _frmShowDialogQuestion = new frmShowDialogQuestion("Thông báo", "Yêu cầu nhập số lượng!", "Thử lại", "");
+                _frmShowDialogQuestion.Show();
+                btnThem.Enabled = false;
+            }
+            else
+            {
+                _frmShowDialogQuestion = new frmShowDialogQuestion("Thông báo", "Số lượng nhập vào vượt quá số lượng trong cửa hàng! (còn lại " + amount + ")", "Thử lại", "");
+                _frmShowDialogQuestion.Show();
+                btnThem.Enabled = false;
+            }
+        }
+
+        private void cboTenSp_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            check = false;
+            nudSoLuong.Value = 0;
+            nudGia.Value = 0;
+            lblTongTien.Text = "...";
+            btnThem.Enabled = false;
+            check = true;
         }
 
         public void CalculatorPrice()
@@ -38,21 +124,10 @@ namespace QuanLyCuaHangTienLoi
             for (int i = 0; i < dgvProducts.RowCount - 1; i++)
             {
                 DataGridViewRow selected = dgvProducts.Rows[i];
-                price += long.Parse(selected.Cells["Price"].Value.ToString().Replace(",", "")) * long.Parse(selected.Cells["Amount"].Value.ToString());
+                price += long.Parse(selected.Cells["GiaBan"].Value.ToString().Replace(",", "")) * long.Parse(selected.Cells["SoLuong"].Value.ToString());
 
             }
             lblThanhTien.Text = price.ToString("#,##0");
-        }
-
-        public void ResetData()
-        {
-            txtTimKiem.Text = "";
-            dgvProduct.DataSource = null;
-            nudSoLuong.Value = 0;
-            lblTimThay.Visible = false;
-            lblKhongTimThay.Visible = false;
-
-            CalculatorPrice();
         }
 
         private void btnTimKiem_Click(object sender, EventArgs e)
@@ -62,14 +137,12 @@ namespace QuanLyCuaHangTienLoi
             {
                 lblTimThay.Visible = false;
                 lblKhongTimThay.Visible = true;
-                dgvProduct.DataSource = null;
                 return;
             }
             if (id[1] == "")
             {
                 lblTimThay.Visible = false;
                 lblKhongTimThay.Visible = true;
-                dgvProduct.DataSource = null;
                 return;
             }
             query = "SELECT * FROM Products WHERE Id = " + id[1];
@@ -80,113 +153,39 @@ namespace QuanLyCuaHangTienLoi
                 lblTimThay.Visible = true;
                 lblKhongTimThay.Visible = false;
 
-                DataColumn colID = new DataColumn();
-                colID.ColumnName = "MaSanPham";
-                ds.Tables[0].Columns.Add(colID);
-
-                DataColumn PriceView = new DataColumn();
-                PriceView.ColumnName = "PriceView";
-                ds.Tables[0].Columns.Add(PriceView);
-
-                for(int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                {
-                    ds.Tables[0].Rows[i]["PriceView"] = int.Parse(ds.Tables[0].Rows[i]["Price"].ToString()).ToString("#,##0");
-                }
-
-                ds.Tables[0].Rows[0]["MaSanPham"] = "SP" + id[1];
-
-                dgvProduct.AutoGenerateColumns = false;
-                dgvProduct.DataSource = ds.Tables[0];
+                cboLoaiSp.Text = ds.Tables[0].Rows[0]["Type"].ToString();
+                cboTenSp.Text = ds.Tables[0].Rows[0]["NameProduct"].ToString();
             }
             else
             {
                 lblTimThay.Visible = false;
                 lblKhongTimThay.Visible = true;
-                dgvProduct.DataSource = null;
             }
         }
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            if (lblTimThay.Visible)
-            {
-                if(nudSoLuong.Value == 0)
-                {
-                    _frmShowDialogQuestion = new frmShowDialogQuestion("Thông báo", "Chưa chọn số lượng. Vui lòng thử lại!", "Thử lại", "");
-                    _frmShowDialogQuestion.Show();
-                }
-                else if(nudSoLuong.Value > int.Parse(dgvProduct.Rows[0].Cells["RemainAmount"].Value.ToString()))
-                {
-                    _frmShowDialogQuestion = new frmShowDialogQuestion("Thông báo", "Số lượng mua vượt quá số lượng còn lại trong cửa hàng. Vui lòng thử lại!", "Thử lại", "");
-                    _frmShowDialogQuestion.Show();
-                }
-                else
-                {
-                    DataGridViewRow selected = dgvProduct.Rows[0];
-                    string MaSP = selected.Cells["MaSanPham"].Value.ToString();
-                    string TenSP = selected.Cells["TenSP"].Value.ToString();
-                    string NhaCungCap = selected.Cells["NhaCungCap"].Value.ToString();
-                    string LoaiSP = selected.Cells["LoaiSP"].Value.ToString();
-                    string GiaBan = selected.Cells["GiaBan"].Value.ToString();
+            check = false;
+            DataGridViewRow selected = dgvProducts.Rows[0];
+            string TenSP = cboTenSp.Text;
+            int type = int.Parse(ketNoiDB.GetValue("SELECT Type FROM Products WHERE NameProduct = N'" + cboTenSp.Text + "'"));
+            string LoaiSP = ketNoiDB.GetValue("SELECT NameCate FROM Categorys WHERE ID = " + type);
+            int GiaBan = int.Parse(nudGia.Value.ToString());
+            int SoLuong = int.Parse(nudSoLuong.Value.ToString());
 
-                    dgvProducts.Rows.Add(1);
-                    int RowIndex = dgvProducts.Rows.Count - 2;
+            dgvProducts.Rows.Add(1);
+            int RowIndex = dgvProducts.Rows.Count - 2;
 
-                    dgvProducts[0, RowIndex].Value = MaSP;
-                    dgvProducts[1, RowIndex].Value = TenSP;
-                    dgvProducts[2, RowIndex].Value = NhaCungCap;
-                    dgvProducts[3, RowIndex].Value = LoaiSP;
-                    dgvProducts[4, RowIndex].Value = GiaBan;
-                    dgvProducts[5, RowIndex].Value = nudSoLuong.Value.ToString();
+            dgvProducts[0, RowIndex].Value = TenSP;
+            dgvProducts[1, RowIndex].Value = LoaiSP;
+            dgvProducts[2, RowIndex].Value = GiaBan.ToString("#,##0");
+            dgvProducts[3, RowIndex].Value = SoLuong;
 
-                    _frmShowDialogQuestion = new frmShowDialogQuestion("Thông báo", "Thêm thành công!", "Tiếp tục", "");
-                    _frmShowDialogQuestion.Show();
-
-                    ResetData();
-                }
-            }
-            else
-            {
-                _frmShowDialogQuestion = new frmShowDialogQuestion("Thông báo", "Chưa chọn sản phẩm để thêm. Vui lòng tìm kiếm và thử lại!", "Thử lại", "");
-                _frmShowDialogQuestion.Show();
-            }
-        }
-
-        private void btnXoa_Click(object sender, EventArgs e)
-        {
-            int Rowindex = dgvProducts.CurrentCell.RowIndex;
-            DataGridViewRow selected = dgvProducts.Rows[Rowindex];
-
-            string tenSp = selected.Cells["NameProduct"].Value.ToString();
-            if (tenSp != "" && Rowindex >= 0 && Rowindex < dgvProducts.Rows.Count - 1)
-            {
-                _frmShowDialogQuestion = new frmShowDialogQuestion("Xoá", "Bạn có muốn xóa sản phẩm " + tenSp + " trong danh mục không? ", "Có", "Không");
-                var x = _frmShowDialogQuestion.ShowDialog();
-                if (x == DialogResult.Yes)
-                {
-                    int RowIndex = dgvProducts.CurrentCell.RowIndex;
-                    dgvProducts.Rows.RemoveAt(RowIndex);
-                }
-            }
-            else
-            {
-                _frmShowDialogQuestion = new frmShowDialogQuestion("Xoá", "Bạn chưa chọn sản phẩm muốn xóa!", "Thử lại", "");
-                _frmShowDialogQuestion.Show();
-            }
-
+            _frmShowDialogQuestion = new frmShowDialogQuestion("Thông báo", "Thêm thành công!", "Tiếp tục", "");
+            _frmShowDialogQuestion.Show();
+            CalculatorPrice();
             ResetData();
-        }
-
-        private void dgvProducts_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-        {
-            if (dgvProducts.Rows.Count <= 1)
-            {
-                btnXoa.Enabled = false;
-            }
-            else
-            {
-                btnXoa.Enabled = true;
-            }
+            check = true;
         }
 
         private void dgvProducts_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -201,41 +200,108 @@ namespace QuanLyCuaHangTienLoi
             }
         }
 
-        private void btnThanhToan_Click(object sender, EventArgs e)
+        private void dgvProducts_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
-            _frmShowDialogQuestion = new frmShowDialogQuestion("Question", "Bạn có chắc chắn thanh toán các sản phẩm trên " +
-                "và lưu vào hóa đơn mua hàng?", "Có", "Không");
-            var x = _frmShowDialogQuestion.ShowDialog();
-            if (x != DialogResult.Yes) return;
-
-            string time = Convert.ToDateTime(DateTime.Now).ToString("MM/dd/yyyy HH:mm:ss");
-            query = "INSERT INTO Bill(IDStaff, DateCheckIn, TotalPrices, Type) VALUES(" + idStaff + ", '" + time + "', " + int.Parse(lblThanhTien.Text.Replace(",", "")) + ", 0)";
-            ketNoiDB.ThucThiCauLenh(query);
-            query = "SELECT ID FROM Bill WHERE DateCheckIn = '" + time + "' AND TotalPrices = " + int.Parse(lblThanhTien.Text.Replace(",","")) + " AND Type = 0";
-            string idBill = ketNoiDB.GetValue(query);
-
-            for (int i = 0; i < dgvProducts.RowCount - 1; i++)
+            if (dgvProducts.Rows.Count <= 1)
             {
-                DataGridViewRow selected = dgvProducts.Rows[i];
-                string MaSP = selected.Cells["MaSP"].Value.ToString();
-                string[] id = MaSP.Split('P');
-                int soLuong = int.Parse(selected.Cells["Amount"].Value.ToString());
-                int gia = int.Parse(selected.Cells["Price"].Value.ToString().Replace(",",""));
+                btnXoa.Enabled = false;
+            }
+            else
+            {
+                btnXoa.Enabled = true;
+            }
+        }
 
-                query = "SELECT RemainAmount FROM Products WHERE ID = " + id[1];
-                int remainAmount = int.Parse(ketNoiDB.GetValue(query));
-                query = "UPDATE Products SET RemainAmount = " + (remainAmount - soLuong) + " WHERE ID = " + id[1];
-                ketNoiDB.ThucThiCauLenh(query);
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            int Rowindex = dgvProducts.CurrentCell.RowIndex;
+            DataGridViewRow selected = dgvProducts.Rows[Rowindex];
 
-                query = "INSERT INTO BillInfo(IDBill, IDProduct, Amount, Price) VALUES(" + idBill + ", " + id[1] + ", " + soLuong + ", " + gia + ")";
-                ketNoiDB.ThucThiCauLenh(query);
+            string tenSp = selected.Cells["TenSp"].Value.ToString();
+            if (tenSp != "" && Rowindex >= 0 && Rowindex < dgvProducts.Rows.Count - 1)
+            {
+                _frmShowDialogQuestion = new frmShowDialogQuestion("Xoá", "Bạn có muốn xóa sản phẩm " + tenSp + " trong danh mục không? ", "Có", "Không");
+                var x = _frmShowDialogQuestion.ShowDialog();
+                if (x == DialogResult.Yes)
+                {
+                    int RowIndex = dgvProducts.CurrentCell.RowIndex;
+                    dgvProducts.Rows.RemoveAt(RowIndex);
+                    ResetData();
+                }
+            }
+            else
+            {
+                _frmShowDialogQuestion = new frmShowDialogQuestion("Xoá", "Bạn chưa chọn sản phẩm muốn xóa!", "Thử lại", "");
+                _frmShowDialogQuestion.Show();
             }
 
-            _frmShowDialogQuestion = new frmShowDialogQuestion("Thành công", "Thanh toán sản phẩm thành công! Đã thêm dữ liệu vào hóa đơn thanh toán!", "Đồng ý", "");
-            _frmShowDialogQuestion.Show();
+        }
 
-            dgvProduct.DataSource = null;
-            dgvProducts.DataSource = new DataSet();
+        private void btnThanhToan_Click(object sender, EventArgs e)
+        {
+            if (dgvProducts.Rows.Count <= 1)
+            {
+                _frmShowDialogQuestion = new frmShowDialogQuestion("Thông báo", "Danh mục hóa đơn trống!", "Thử lại", "");
+                _frmShowDialogQuestion.Show();
+            }
+            else
+            {
+                if(txtTen.Text.Trim().Equals("") && txtSdt.Text.Trim().Equals(""))
+                {
+                    _frmShowDialogQuestion = new frmShowDialogQuestion("Thông báo", "Vui lòng nhập tên và số điện thoại của khách hàng!", "Thử lại", "");
+                    _frmShowDialogQuestion.Show();
+                }
+                else
+                {
+                    _frmShowDialogQuestion = new frmShowDialogQuestion("Question", "Bạn có chắc chắn thanh toán các sản phẩm trên " +
+                        "và lưu vào hóa đơn mua hàng?", "Có", "Không");
+                    var x = _frmShowDialogQuestion.ShowDialog();
+                    if (x != DialogResult.Yes) return;
+
+                    query = "INSERT INTO Customers VALUES(N'" + txtTen.Text.Trim() + "', '" + txtSdt.Text.Trim() + "', N'" + txtThongTinThem.Text.Trim() + "')";
+                    ketNoiDB.ThucThiCauLenh(query);
+
+                    int idCus = int.Parse(ketNoiDB.GetValue("SELECT ID FROM Customers WHERE Name = N'" + txtTen.Text.Trim() + "' AND Phone = '" + txtSdt.Text.Trim() + "' AND Extra = N'" + txtThongTinThem.Text.Trim() + "'"));
+
+                    string time = Convert.ToDateTime(DateTime.Now).ToString("MM/dd/yyyy HH:mm:ss");
+                    query = "INSERT INTO Bill(IDStaff, DateCheckIn, TotalPrices, Type, IDCustomer) VALUES(" + idStaff + ", '" + time + "', " + int.Parse(lblThanhTien.Text.Replace(",", "")) + ", 0, " + idCus + ")";
+                    ketNoiDB.ThucThiCauLenh(query);
+                    query = "SELECT ID FROM Bill WHERE DateCheckIn = '" + time + "' AND TotalPrices = " + int.Parse(lblThanhTien.Text.Replace(",", "")) + " AND Type = 0";
+                    string idBill = ketNoiDB.GetValue(query);
+
+                    for (int i = 0; i < dgvProducts.RowCount - 1; i++)
+                    {
+                        DataGridViewRow selected = dgvProducts.Rows[i];
+                        string TenSp = selected.Cells["TenSp"].Value.ToString();
+                        int id = int.Parse(ketNoiDB.GetValue("SELECT ID FROM Products WHERE NameProduct = N'" + TenSp + "'"));
+                        int soLuong = int.Parse(selected.Cells["SoLuong"].Value.ToString());
+                        int gia = int.Parse(selected.Cells["GiaBan"].Value.ToString().Replace(",", ""));
+
+                        query = "SELECT RemainAmount FROM Products WHERE ID = " + id;
+                        int remainAmount = int.Parse(ketNoiDB.GetValue(query));
+                        query = "UPDATE Products SET RemainAmount = " + (remainAmount - soLuong) + " WHERE ID = " + id;
+                        ketNoiDB.ThucThiCauLenh(query);
+
+                        query = "INSERT INTO BillInfo(IDBill, IDProduct, Amount, Price) VALUES(" + idBill + ", " + id + ", " + soLuong + ", " + gia + ")";
+                        ketNoiDB.ThucThiCauLenh(query);
+                    }
+
+                    QuanLyCuaHangTienLoi.ExcelUtlity obj = new QuanLyCuaHangTienLoi.ExcelUtlity();
+                    obj.WriteDataTableToExcel(dgvProducts, "Person Details", "D:\\testPersonExceldata.xlsx", "Details", int.Parse(idBill), txtTen.Text, txtSdt.Text, lblThanhTien.Text);
+
+                    _frmShowDialogQuestion = new frmShowDialogQuestion("Thành công", "Thanh toán sản phẩm thành công! Đã thêm dữ liệu vào hóa đơn thanh toán!", "Đồng ý", "");
+                    _frmShowDialogQuestion.Show();
+
+                    dgvProducts.DataSource = new DataSet();
+                    ResetData();
+                }
+            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            dgvProducts.DataSource = new DataTable();
+            ResetData();
         }
     }
 }

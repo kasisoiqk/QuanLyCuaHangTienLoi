@@ -128,7 +128,7 @@ namespace QuanLyCuaHangTienLoi
 
         private void btnTimKiemSp_Click(object sender, EventArgs e)
         {
-            openChildForm(new frmTimKiem(true));
+            openChildForm(new frmTimKiem());
             //
             // To do
             //

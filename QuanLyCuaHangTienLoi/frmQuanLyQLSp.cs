@@ -20,13 +20,41 @@ namespace QuanLyCuaHangTienLoi
         public frmQuanLyQLSp()
         {
             InitializeComponent();
+            loadCboLoaiSP();
 
             GetData();
         }
 
+        public void loadCboLoaiSP()
+        {
+            query = "Select NameCate from Categorys";
+            DataSet ds = ketNoiDB.GetDataSet(query);
+            DataRow dr = ds.Tables[0].NewRow();
+            dr["NameCate"] = "Khác";
+            ds.Tables[0].Rows.Add(dr);
+            cboLoaiSp.DataSource = ds.Tables[0];
+            cboLoaiSp.DisplayMember = "name";
+            cboLoaiSp.ValueMember = "NameCate";
+            cboLoaiSp.SelectedIndex = 0;
+        }
+
+        private void cboLoaiSp_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboLoaiSp.Text.Equals("Khác"))
+            {
+                txtLoaiSp.Enabled = true;
+                txtLoaiSp.Text = "";
+            }
+            else
+            {
+                txtLoaiSp.Enabled = false;
+                txtLoaiSp.Text = "";
+            }
+        }
+
         public void GetData()
         {
-            query = "SELECT * FROM Products";
+            query = "SELECT * FROM Products LEFT JOIN Categorys ON Products.Type = Categorys.ID";
             DataSet ds = ketNoiDB.GetDataSet(query);
 
             DataColumn MaSP = new DataColumn();
@@ -63,7 +91,7 @@ namespace QuanLyCuaHangTienLoi
                     txtMaSP.Enabled = false;
                     txtNhaCungCap.Enabled = false;
                     txtTenSP.Enabled = false;
-                    cboLoaiSP.Enabled = false;
+                    cboLoaiSp.Enabled = false;
                     nudGiaBan.Enabled = false;
                     nudGiaNhap.Enabled = false;
                     nudSoLuongConLai.Enabled = false;
@@ -81,7 +109,7 @@ namespace QuanLyCuaHangTienLoi
                     txtMaSP.Enabled = false;
                     txtNhaCungCap.Enabled = true;
                     txtTenSP.Enabled = true;
-                    cboLoaiSP.Enabled = true;
+                    cboLoaiSp.Enabled = true;
                     nudGiaBan.Enabled = true;
                     nudGiaNhap.Enabled = false;
                     nudSoLuongConLai.Enabled = false;
@@ -161,18 +189,40 @@ namespace QuanLyCuaHangTienLoi
         {
             if (State.Equals("Update"))
             { 
-                if (txtTenSP.Text != "" && txtNhaCungCap.Text != "" && cboLoaiSP.SelectedIndex >= 0 && nudGiaBan.Value > 0)
+                if (txtTenSP.Text != "" && txtNhaCungCap.Text != "" && cboLoaiSp.SelectedIndex >= 0 && nudGiaBan.Value > 0)
                 {
                     if (checkPrice())
+                    {
+                        int type;
+                        if (cboLoaiSp.Text.Equals("Khác"))
                         {
+                            if(txtLoaiSp.Text.Trim() == "")
+                            {
+                                _frmShowDialogQuestion = new frmShowDialogQuestion("Thông báo", "Bạn chưa nhập loại sản phẩm. Vui lòng thử lại!", "Thử lại", "");
+                                _frmShowDialogQuestion.Show();
+                                return;
+                            }
+                            query = "INSERT INTO Categorys VALUES (N'" + txtLoaiSp.Text.Trim() + "')";
+                            ketNoiDB.ThucThiCauLenh(query);
+
+                            query = "SELECT ID FROM Categorys WHERE NameCate = N'" + txtLoaiSp.Text.Trim() + "'";
+                            type = int.Parse(ketNoiDB.GetValue(query));
+                        }
+                        else
+                        {
+                            query = "SELECT ID FROM Categorys WHERE NameCate = N'" + cboLoaiSp.Text.Trim() + "'";
+                            type = int.Parse(ketNoiDB.GetValue(query));
+                        }
+
                         string[] id = txtMaSP.Text.Split('P');
                         query = "UPDATE Products SET NameProduct = N'" + txtTenSP.Text.Trim() + "', Price = " + nudGiaBan.Value + ", Supplier = N'" +
-                            txtNhaCungCap.Text.Trim() + "', Type = N'" + cboLoaiSP.Text + "' WHERE ID = " + id[1];
+                            txtNhaCungCap.Text.Trim() + "', Type = " + type + " WHERE ID = " + id[1];
                         if (ketNoiDB.ThucThiCauLenh(query))
                         {
                             _frmShowDialogQuestion = new frmShowDialogQuestion("Thành công", "Cập nhật dữ liệu thành công", "Tiếp tục", "");
                             _frmShowDialogQuestion.Show();
 
+                            loadCboLoaiSP();
                             GetData();
                             State = "Reset";
                             SetControls(State);
@@ -209,12 +259,12 @@ namespace QuanLyCuaHangTienLoi
                 txtMaSP.Text = selected.Cells["MaSP"].Value.ToString();
                 txtTenSP.Text = selected.Cells["NameProduct"].Value.ToString();
                 txtNhaCungCap.Text = selected.Cells["Supplier"].Value.ToString();
-                for (int i = 0; i < cboLoaiSP.Items.Count; i++)
+                for (int i = 0; i < cboLoaiSp.Items.Count; i++)
                 {
-                    string value = cboLoaiSP.GetItemText(cboLoaiSP.Items[i]);
+                    string value = cboLoaiSp.GetItemText(cboLoaiSp.Items[i]);
                     if (selected.Cells["Type"].Value.ToString().Equals(value))
                     {
-                        cboLoaiSP.SelectedIndex = i;
+                        cboLoaiSp.SelectedIndex = i;
                         break;
                     }
                 }

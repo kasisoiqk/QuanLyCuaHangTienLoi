@@ -159,7 +159,7 @@ namespace QuanLyCuaHangTienLoi
                 dgvProduct.DataSource = null;
                 return;
             }
-            query = "SELECT * FROM Products WHERE Id = " + id[1];
+            query = "SELECT * FROM Products INNER JOIN Categorys ON Products.Type = Categorys.ID WHERE Products.Id = " + id[1];
 
             if (ketNoiDB.GetValue(query) != null)
             {

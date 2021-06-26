@@ -127,6 +127,10 @@ namespace QuanLyCuaHangTienLoi
                 ExportPriceView.ColumnName = "ExportPriceView";
                 ds.Tables[0].Columns.Add(ExportPriceView);
 
+                DataColumn NameCate = new DataColumn();
+                NameCate.ColumnName = "NameCate";
+                ds.Tables[0].Columns.Add(NameCate);
+
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     ds.Tables[0].Rows[i]["ImportPriceView"] = int.Parse(ds.Tables[0].Rows[i]["ImportPrice"].ToString()).ToString("#,##0");
@@ -139,6 +143,8 @@ namespace QuanLyCuaHangTienLoi
 
                     }
                     ds.Tables[0].Rows[i]["MaSP"] = "SP" + ds.Tables[0].Rows[i]["IDProduct"];
+
+                    ds.Tables[0].Rows[i]["NameCate"] = ketNoiDB.GetValue("SELECT NameCate FROM Categorys WHERE ID = " + ds.Tables[0].Rows[i]["Type"]);
                 }
 
                 dgvBillInfo.AutoGenerateColumns = false;

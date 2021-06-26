@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmQuanLyMain));
             this.panelSideMenu = new System.Windows.Forms.Panel();
             this.btnThongTinCH = new System.Windows.Forms.Button();
             this.panelThongKeDoanhThuSubMenu = new System.Windows.Forms.Panel();
@@ -487,10 +488,12 @@
             this.Controls.Add(this.panelSideMenu);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimumSize = new System.Drawing.Size(1067, 775);
             this.Name = "frmQuanLyMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Quản lý cửa hàng";
             this.panelSideMenu.ResumeLayout(false);
             this.panelThongKeDoanhThuSubMenu.ResumeLayout(false);
             this.panelQLSPSubMenu.ResumeLayout(false);

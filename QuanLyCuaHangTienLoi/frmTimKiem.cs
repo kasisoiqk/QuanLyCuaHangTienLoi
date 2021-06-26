@@ -19,17 +19,23 @@ namespace QuanLyCuaHangTienLoi
         public frmTimKiem()
         {
             InitializeComponent();
+            loadCboLoaiSP();
 
-            query = "SELECT * FROM Products";
+            query = "SELECT * FROM Products LEFT JOIN Categorys ON Products.Type = Categorys.ID";
             GetData(query);
         }
 
-        public frmTimKiem(bool isVisible)
+        public void loadCboLoaiSP()
         {
-            InitializeComponent();
-
-            query = "SELECT * FROM Products";
-            GetData(query);
+            query = "Select NameCate from Categorys";
+            DataSet ds = ketNoiDB.GetDataSet(query);
+            DataRow dr = ds.Tables[0].NewRow();
+            dr["NameCate"] = "Tất cả";
+            ds.Tables[0].Rows.InsertAt(dr, 0);
+            cboLoaiSp.DataSource = ds.Tables[0];
+            cboLoaiSp.DisplayMember = "name";
+            cboLoaiSp.ValueMember = "NameCate";
+            cboLoaiSp.SelectedIndex = 0;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -90,7 +96,7 @@ namespace QuanLyCuaHangTienLoi
                 else
                 {
                     bool check = true;
-                    query = "SELECT * FROM Products WHERE ";
+                    query = "SELECT * FROM Products LEFT JOIN Categorys ON Products.Type = Categorys.ID WHERE ";
                         //ID = " + id[1] + " AND NameProduct = N'%" + TenSP + "%' AND Supplier = N'%" +
                         //NhaCungCap + "%' AND ( Price BETWEEN " + GiaTu + " AND " + GiaDen + " )";
 
@@ -142,7 +148,9 @@ namespace QuanLyCuaHangTienLoi
 
         private void btnHienThiToanBo_Click(object sender, EventArgs e)
         {
-            query = "SELECT * FROM Products";
+            lblTimThay.Visible = false;
+            lblKhongTimThay.Visible = false;
+            query = "SELECT * FROM Products LEFT JOIN Categorys ON Products.Type = Categorys.ID";
             GetData(query);
         }
 
@@ -150,12 +158,12 @@ namespace QuanLyCuaHangTienLoi
         {
             if(cboLoaiSp.SelectedIndex > 0 && cboLoaiSp.SelectedIndex < cboLoaiSp.Items.Count)
             {
-                query = "SELECT * FROM Products WHERE Type = N'" + cboLoaiSp.Text + "'";
+                query = "SELECT * FROM Products LEFT JOIN Categorys ON Products.Type = Categorys.ID WHERE NameCate = N'" + cboLoaiSp.Text + "'";
                 GetData(query);
             }
             else
             {
-                query = "SELECT * FROM Products";
+                query = "SELECT * FROM Products LEFT JOIN Categorys ON Products.Type = Categorys.ID";
                 GetData(query);
             }
         }

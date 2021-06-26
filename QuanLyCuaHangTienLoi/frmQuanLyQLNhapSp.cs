@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Windows.Forms;
 
 namespace QuanLyCuaHangTienLoi
@@ -22,11 +23,40 @@ namespace QuanLyCuaHangTienLoi
             this.Close();
         }
 
+        public void loadCboLoaiSP()
+        {
+            query = "Select NameCate from Categorys";
+            DataSet ds = ketNoiDB.GetDataSet(query);
+            DataRow dr = ds.Tables[0].NewRow();
+            dr["NameCate"] = "Khác";
+            ds.Tables[0].Rows.Add(dr);
+            cboLoaiSp.DataSource = ds.Tables[0];
+            cboLoaiSp.DisplayMember = "name";
+            cboLoaiSp.ValueMember = "NameCate";
+            cboLoaiSp.SelectedIndex = 0;
+        }
+
+        private void cboLoaiSp_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cboLoaiSp.Text.Equals("Khác"))
+            {
+                txtLoaiSp.Enabled = true;
+                txtLoaiSp.Text = "";
+            }
+            else
+            {
+                txtLoaiSp.Enabled = false;
+                txtLoaiSp.Text = "";
+            }
+        }
+
         public void SetControls(string State)
         {
             switch (State)
             {
                 case "Reset":
+                    loadCboLoaiSP();
+
                     txtTenSp.Enabled = false;
                     txtNhaCungCap.Enabled = false;
                     nudSoLuong.Enabled = false;
@@ -178,7 +208,10 @@ namespace QuanLyCuaHangTienLoi
                         int RowIndex = dgvProduct.Rows.Count - 2;
                         dgvProduct[0, RowIndex].Value = txtTenSp.Text.Trim();
                         dgvProduct[1, RowIndex].Value = txtNhaCungCap.Text.Trim();
-                        dgvProduct[2, RowIndex].Value = cboLoaiSp.Text;
+                        if(cboLoaiSp.Text.Equals("Khác"))
+                            dgvProduct[2, RowIndex].Value = txtLoaiSp.Text;
+                        else
+                            dgvProduct[2, RowIndex].Value = cboLoaiSp.Text;
                         dgvProduct[3, RowIndex].Value = nudGiaNhap.Value.ToString("#,##0");
                         dgvProduct[4, RowIndex].Value = nudGiaBan.Value.ToString("#,##0");
                         dgvProduct[5, RowIndex].Value = nudSoLuong.Value;
@@ -264,6 +297,29 @@ namespace QuanLyCuaHangTienLoi
                 int giaNhap = int.Parse(selected.Cells["ImportPrice"].Value.ToString().Replace(",",""));
                 int giaBan = int.Parse(selected.Cells["Price"].Value.ToString().Replace(",", ""));
 
+                int type = 0;
+                string val = ketNoiDB.GetValue("SELECT ID FROM Categorys WHERE NameCate = N'" + loaiSp + "'");
+                if(val != null)
+                {
+                    type = int.Parse(val);
+                }
+
+                if(type == 0)
+                {
+                    query = "INSERT INTO Categorys VALUES (N'" + loaiSp + "')";
+                    ketNoiDB.ThucThiCauLenh(query);
+
+                    query = "SELECT ID FROM Categorys WHERE NameCate = N'" + loaiSp + "'";
+                    try
+                    {
+                        val = ketNoiDB.GetValue(query);
+                        type = int.Parse(val);
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
+                }
 
                 query = "SELECT * FROM Products WHERE NameProduct = N'" + tenSp + "'";
                 if (ketNoiDB.GetValue(query) != null)
@@ -282,7 +338,7 @@ namespace QuanLyCuaHangTienLoi
                     {
 
                         query = "INSERT INTO Products(NameProduct, Supplier, Type, ImportPrice, Price, RemainAmount) VALUES(N'" + tenSp + "', N'" +
-                        nhaCungCap + "', N'" + loaiSp + "', " + giaNhap + ", " + giaBan + ", " + soLuong + ")";
+                        nhaCungCap + "', " + type + ", " + giaNhap + ", " + giaBan + ", " + soLuong + ")";
                         ketNoiDB.ThucThiCauLenh(query);
                     }
                 }
@@ -290,7 +346,7 @@ namespace QuanLyCuaHangTienLoi
                 else
                 {
                     query = "INSERT INTO Products(NameProduct, Supplier, Type, ImportPrice, Price, RemainAmount) VALUES(N'" + tenSp + "', N'" +
-                        nhaCungCap + "', N'" + loaiSp + "', " + giaNhap + ", " + giaBan + ", " + soLuong + ")";
+                        nhaCungCap + "', " + type + ", " + giaNhap + ", " + giaBan + ", " + soLuong + ")";
                     ketNoiDB.ThucThiCauLenh(query);
                 }
 
@@ -309,5 +365,6 @@ namespace QuanLyCuaHangTienLoi
             SetControls(State);
             dgvProduct.DataSource = new System.Data.DataSet();
         }
+
     }
 }

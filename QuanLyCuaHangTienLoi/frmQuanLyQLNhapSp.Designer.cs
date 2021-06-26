@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnClose = new System.Windows.Forms.Button();
@@ -64,6 +64,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtLoaiSp = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -210,25 +212,25 @@
             this.ImportPrice,
             this.Price,
             this.Amount});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(35)))), ((int)(((byte)(53)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(17)))), ((int)(((byte)(112)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvProduct.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(35)))), ((int)(((byte)(53)))));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(17)))), ((int)(((byte)(112)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvProduct.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvProduct.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
             this.dgvProduct.Location = new System.Drawing.Point(6, 28);
             this.dgvProduct.Name = "dgvProduct";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(35)))), ((int)(((byte)(53)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvProduct.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(35)))), ((int)(((byte)(53)))));
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvProduct.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvProduct.RowHeadersWidth = 51;
             this.dgvProduct.RowTemplate.Height = 24;
             this.dgvProduct.Size = new System.Drawing.Size(1269, 222);
@@ -281,6 +283,8 @@
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(69)))), ((int)(((byte)(100)))));
+            this.groupBox3.Controls.Add(this.txtLoaiSp);
+            this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.nudGiaBan);
             this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Controls.Add(this.nudGiaNhap);
@@ -309,26 +313,26 @@
             // 
             // nudGiaBan
             // 
-            this.nudGiaBan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudGiaBan.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.nudGiaBan.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudGiaBan.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.nudGiaBan.Location = new System.Drawing.Point(1072, 142);
+            this.nudGiaBan.Location = new System.Drawing.Point(588, 133);
             this.nudGiaBan.Maximum = new decimal(new int[] {
             -727379968,
             232,
             0,
             0});
             this.nudGiaBan.Name = "nudGiaBan";
-            this.nudGiaBan.Size = new System.Drawing.Size(120, 29);
+            this.nudGiaBan.Size = new System.Drawing.Size(163, 29);
             this.nudGiaBan.TabIndex = 49;
             // 
             // label15
             // 
-            this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label15.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
-            this.label15.Location = new System.Drawing.Point(880, 141);
+            this.label15.Location = new System.Drawing.Point(437, 135);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(124, 21);
             this.label15.TabIndex = 48;
@@ -336,17 +340,16 @@
             // 
             // nudGiaNhap
             // 
-            this.nudGiaNhap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.nudGiaNhap.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudGiaNhap.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.nudGiaNhap.Location = new System.Drawing.Point(1072, 85);
+            this.nudGiaNhap.Location = new System.Drawing.Point(177, 133);
             this.nudGiaNhap.Maximum = new decimal(new int[] {
             -727379968,
             232,
             0,
             0});
             this.nudGiaNhap.Name = "nudGiaNhap";
-            this.nudGiaNhap.Size = new System.Drawing.Size(120, 29);
+            this.nudGiaNhap.Size = new System.Drawing.Size(159, 29);
             this.nudGiaNhap.TabIndex = 47;
             // 
             // nudSoLuong
@@ -354,18 +357,19 @@
             this.nudSoLuong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.nudSoLuong.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudSoLuong.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.nudSoLuong.Location = new System.Drawing.Point(1072, 34);
+            this.nudSoLuong.Location = new System.Drawing.Point(991, 34);
             this.nudSoLuong.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
             this.nudSoLuong.Name = "nudSoLuong";
-            this.nudSoLuong.Size = new System.Drawing.Size(120, 29);
+            this.nudSoLuong.Size = new System.Drawing.Size(242, 29);
             this.nudSoLuong.TabIndex = 46;
             // 
             // cboLoaiSp
             // 
+            this.cboLoaiSp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cboLoaiSp.DisplayMember = "String";
             this.cboLoaiSp.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboLoaiSp.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -378,12 +382,13 @@
             "Bánh kẹo",
             "Thực phẩm đông lạnh",
             "Rau quả"});
-            this.cboLoaiSp.Location = new System.Drawing.Point(177, 138);
+            this.cboLoaiSp.Location = new System.Drawing.Point(991, 83);
             this.cboLoaiSp.Name = "cboLoaiSp";
-            this.cboLoaiSp.Size = new System.Drawing.Size(362, 29);
+            this.cboLoaiSp.Size = new System.Drawing.Size(242, 29);
             this.cboLoaiSp.TabIndex = 45;
             this.cboLoaiSp.Text = "Loại sản phẩm ?";
             this.cboLoaiSp.ValueMember = "String";
+            this.cboLoaiSp.SelectedIndexChanged += new System.EventHandler(this.cboLoaiSp_SelectedIndexChanged);
             // 
             // txtNhaCungCap
             // 
@@ -396,10 +401,11 @@
             // 
             // label14
             // 
+            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
-            this.label14.Location = new System.Drawing.Point(37, 141);
+            this.label14.Location = new System.Drawing.Point(851, 86);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(117, 21);
             this.label14.TabIndex = 43;
@@ -504,11 +510,10 @@
             // 
             // label10
             // 
-            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
-            this.label10.Location = new System.Drawing.Point(880, 87);
+            this.label10.Location = new System.Drawing.Point(37, 135);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(77, 21);
             this.label10.TabIndex = 32;
@@ -520,7 +525,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
-            this.label8.Location = new System.Drawing.Point(880, 34);
+            this.label8.Location = new System.Drawing.Point(851, 36);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(80, 21);
             this.label8.TabIndex = 31;
@@ -536,6 +541,28 @@
             this.label13.Size = new System.Drawing.Size(112, 21);
             this.label13.TabIndex = 29;
             this.label13.Text = "Tên sản phẩm:";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(216)))), ((int)(((byte)(255)))));
+            this.label2.Location = new System.Drawing.Point(851, 135);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(49, 21);
+            this.label2.TabIndex = 50;
+            this.label2.Text = "Khác:";
+            // 
+            // txtLoaiSp
+            // 
+            this.txtLoaiSp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLoaiSp.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLoaiSp.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.txtLoaiSp.Location = new System.Drawing.Point(991, 132);
+            this.txtLoaiSp.Name = "txtLoaiSp";
+            this.txtLoaiSp.Size = new System.Drawing.Size(242, 29);
+            this.txtLoaiSp.TabIndex = 51;
             // 
             // frmQuanLyQLNhapSp
             // 
@@ -603,5 +630,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblThanhTien;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtLoaiSp;
+        private System.Windows.Forms.Label label2;
     }
 }
