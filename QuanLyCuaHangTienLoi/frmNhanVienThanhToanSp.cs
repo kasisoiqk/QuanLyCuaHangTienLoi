@@ -303,5 +303,10 @@ namespace QuanLyCuaHangTienLoi
             dgvProducts.DataSource = new DataTable();
             ResetData();
         }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

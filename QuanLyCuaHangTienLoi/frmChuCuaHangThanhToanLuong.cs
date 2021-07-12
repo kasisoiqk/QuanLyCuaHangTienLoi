@@ -30,7 +30,7 @@ namespace QuanLyCuaHangTienLoi
 
         public void GetDataLogin()
         {
-            query = "SELECT * FROM Salarys LEFT JOIN Staffs ON Salarys.IDStaff = Staffs.ID";
+            query = "SELECT * FROM Salarys LEFT JOIN Staffs ON Salarys.IDStaff = Staffs.ID ORDER BY TimeIn DESC";
             DataSet ds = ketNoiDB.GetDataSet(query);
 
             DataColumn colMaDangNhap = new DataColumn();

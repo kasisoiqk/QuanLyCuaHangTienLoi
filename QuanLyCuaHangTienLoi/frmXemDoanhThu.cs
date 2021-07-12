@@ -16,12 +16,75 @@ namespace QuanLyCuaHangTienLoi
         private string query;
         frmShowDialogQuestion _frmShowDialogQuestion;
 
+        private Random Rand = new Random();
+        private Color[] FontColors =
+        {
+            Color.Red,
+            Color.Green,
+            Color.Blue,
+            Color.Orange,
+            Color.Brown,
+            Color.Magenta,
+            Color.Purple,
+            Color.BurlyWood,
+            Color.HotPink,
+            Color.White,
+            Color.Aqua,
+            Color.Bisque,
+            Color.Chocolate,
+            Color.DarkOrange,
+            Color.LimeGreen,
+            Color.DodgerBlue,
+            Color.Tomato,
+            Color.BlueViolet,
+            Color.Cornsilk
+        };
+
         public frmXemDoanhThu()
         {
             InitializeComponent();
 
             query = "SELECT * FROM Bill LEFT JOIN Staffs ON Bill.IDStaff = Staffs.ID";
             GetData(query);
+
+            LoadChart();
+        }
+
+        public void LoadChart()
+        {
+            query = "SELECT IDProduct, SUM(Amount) AS [TongSoLuongBan], SUM(Price * Amount) AS [Tong] FROM BillInfo INNER JOIN Bill " +
+                "ON BillInfo.IDBill = Bill.ID WHERE Bill.Type = 0 GROUP BY IDProduct";
+            DataSet ds = ketNoiDB.GetDataSet(query);
+
+            DataColumn MaSP = new DataColumn();
+            MaSP.ColumnName = "MaSP";
+            ds.Tables[0].Columns.Add(MaSP);
+
+            DataColumn Name = new DataColumn();
+            Name.ColumnName = "Name";
+            ds.Tables[0].Columns.Add(Name);
+
+            DataColumn TongTien = new DataColumn();
+            TongTien.ColumnName = "TongTien";
+            ds.Tables[0].Columns.Add(TongTien);
+
+
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                ds.Tables[0].Rows[i]["MaSP"] = "SP" + ds.Tables[0].Rows[i]["IDProduct"];
+                ds.Tables[0].Rows[i]["Name"] = ketNoiDB.GetValue("SELECT NameProduct FROM Products WHERE ID = " + ds.Tables[0].Rows[i]["IDProduct"]);
+                ds.Tables[0].Rows[i]["TongTien"] = int.Parse(ds.Tables[0].Rows[i]["Tong"].ToString()).ToString("#,##0");
+
+
+                BieuDo.Series["BieuDo"].Points.Add(int.Parse(ds.Tables[0].Rows[i]["Tong"].ToString()));
+                BieuDo.Series["BieuDo"].Points[i].Label = ds.Tables[0].Rows[i]["MaSP"] + "";
+                BieuDo.Series["BieuDo"].Points[i].Color = FontColors[Rand.Next(0, FontColors.Length)];
+                BieuDo.Series["BieuDo"].Points[i].LegendText = ds.Tables[0].Rows[i]["Name"] + "";
+            }
+
+            dgvDoanhSo.AutoGenerateColumns = false;
+            dgvDoanhSo.DataSource = ds.Tables[0];
+
 
         }
 
