@@ -116,6 +116,18 @@ namespace QuanLyCuaHangTienLoi
             lblTongTien.Text = "...";
             btnThem.Enabled = false;
             check = true;
+
+            // Them gia
+            try
+            {
+                query = "SELECT Price FROM Products WHERE NameProduct = N'" + cboTenSp.Text + "'";
+                int giaBan = int.Parse(ketNoiDB.GetValue(query));
+                nudGia.Value = giaBan;
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         public void CalculatorPrice()
@@ -145,7 +157,7 @@ namespace QuanLyCuaHangTienLoi
                 lblKhongTimThay.Visible = true;
                 return;
             }
-            query = "SELECT * FROM Products WHERE Id = " + id[1];
+            query = "SELECT * FROM Products INNER JOIN Categorys ON Products.Type = Categorys.ID WHERE Products.Id = " + id[1];
 
             if (ketNoiDB.GetValue(query) != null)
             {
@@ -153,8 +165,9 @@ namespace QuanLyCuaHangTienLoi
                 lblTimThay.Visible = true;
                 lblKhongTimThay.Visible = false;
 
-                cboLoaiSp.Text = ds.Tables[0].Rows[0]["Type"].ToString();
+                cboLoaiSp.Text = ds.Tables[0].Rows[0]["NameCate"].ToString();
                 cboTenSp.Text = ds.Tables[0].Rows[0]["NameProduct"].ToString();
+                nudGia.Value = int.Parse(ds.Tables[0].Rows[0]["Price"].ToString());
             }
             else
             {

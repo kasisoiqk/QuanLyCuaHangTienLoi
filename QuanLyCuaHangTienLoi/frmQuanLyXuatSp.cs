@@ -179,6 +179,15 @@ namespace QuanLyCuaHangTienLoi
                 PriceView.ColumnName = "PriceView";
                 ds.Tables[0].Columns.Add(PriceView);
 
+                DataColumn LoaiSP = new DataColumn();
+                LoaiSP.ColumnName = "LoaiSP";
+                ds.Tables[0].Columns.Add(LoaiSP);
+
+                for(int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    ds.Tables[0].Rows[0]["LoaiSP"] = ketNoiDB.GetValue("SELECT NameCate FROM Categorys WHERE ID = " + ds.Tables[0].Rows[0]["Type"]);
+                }
+
                 ds.Tables[0].Rows[0]["MaSP"] = "SP" + id[1];
                 ds.Tables[0].Rows[0]["ImportPriceView"] = int.Parse(ds.Tables[0].Rows[0]["ImportPrice"].ToString()).ToString("#,##0");
                 ds.Tables[0].Rows[0]["PriceView"] = int.Parse(ds.Tables[0].Rows[0]["Price"].ToString()).ToString("#,##0");

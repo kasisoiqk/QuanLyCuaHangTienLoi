@@ -43,6 +43,12 @@
             this.lblThanhTien = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.dgvProducts = new System.Windows.Forms.DataGridView();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NameProduct = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Supplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnXoa = new System.Windows.Forms.Button();
             this.btnSua = new System.Windows.Forms.Button();
@@ -68,12 +74,6 @@
             this.GiaNhap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GiaBan = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SoLuongConLai = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NameProduct = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Supplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -238,6 +238,57 @@
             this.dgvProducts.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProducts_CellClick);
             this.dgvProducts.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvProducts_RowsAdded);
             this.dgvProducts.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgvProducts_RowsRemoved);
+            // 
+            // ID
+            // 
+            this.ID.DataPropertyName = "ID";
+            this.ID.HeaderText = "Mã sản phẩm";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Width = 140;
+            // 
+            // NameProduct
+            // 
+            this.NameProduct.DataPropertyName = "NameProduct";
+            this.NameProduct.HeaderText = "Tên sản phẩm";
+            this.NameProduct.MinimumWidth = 6;
+            this.NameProduct.Name = "NameProduct";
+            this.NameProduct.ReadOnly = true;
+            this.NameProduct.Width = 200;
+            // 
+            // Supplier
+            // 
+            this.Supplier.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Supplier.DataPropertyName = "Supplier";
+            this.Supplier.HeaderText = "Nhà cung cấp";
+            this.Supplier.MinimumWidth = 6;
+            this.Supplier.Name = "Supplier";
+            this.Supplier.ReadOnly = true;
+            // 
+            // Type
+            // 
+            this.Type.DataPropertyName = "Type";
+            this.Type.HeaderText = "Loại sản phẩm";
+            this.Type.MinimumWidth = 6;
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            this.Type.Width = 220;
+            // 
+            // Price
+            // 
+            this.Price.DataPropertyName = "PriceView";
+            this.Price.HeaderText = "Giá xuất (VND)";
+            this.Price.Name = "Price";
+            this.Price.ReadOnly = true;
+            this.Price.Width = 170;
+            // 
+            // Amount
+            // 
+            this.Amount.DataPropertyName = "Amount";
+            this.Amount.HeaderText = "Số lượng";
+            this.Amount.Name = "Amount";
+            this.Amount.ReadOnly = true;
+            this.Amount.Width = 150;
             // 
             // groupBox2
             // 
@@ -573,7 +624,7 @@
             // 
             // LoaiSp
             // 
-            this.LoaiSp.DataPropertyName = "Type";
+            this.LoaiSp.DataPropertyName = "LoaiSP";
             this.LoaiSp.HeaderText = "Loại sản phẩm";
             this.LoaiSp.MinimumWidth = 6;
             this.LoaiSp.Name = "LoaiSp";
@@ -603,57 +654,6 @@
             this.SoLuongConLai.Name = "SoLuongConLai";
             this.SoLuongConLai.ReadOnly = true;
             this.SoLuongConLai.Width = 150;
-            // 
-            // ID
-            // 
-            this.ID.DataPropertyName = "ID";
-            this.ID.HeaderText = "Mã sản phẩm";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.Width = 140;
-            // 
-            // NameProduct
-            // 
-            this.NameProduct.DataPropertyName = "NameProduct";
-            this.NameProduct.HeaderText = "Tên sản phẩm";
-            this.NameProduct.MinimumWidth = 6;
-            this.NameProduct.Name = "NameProduct";
-            this.NameProduct.ReadOnly = true;
-            this.NameProduct.Width = 200;
-            // 
-            // Supplier
-            // 
-            this.Supplier.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Supplier.DataPropertyName = "Supplier";
-            this.Supplier.HeaderText = "Nhà cung cấp";
-            this.Supplier.MinimumWidth = 6;
-            this.Supplier.Name = "Supplier";
-            this.Supplier.ReadOnly = true;
-            // 
-            // Type
-            // 
-            this.Type.DataPropertyName = "Type";
-            this.Type.HeaderText = "Loại sản phẩm";
-            this.Type.MinimumWidth = 6;
-            this.Type.Name = "Type";
-            this.Type.ReadOnly = true;
-            this.Type.Width = 220;
-            // 
-            // Price
-            // 
-            this.Price.DataPropertyName = "PriceView";
-            this.Price.HeaderText = "Giá xuất (VND)";
-            this.Price.Name = "Price";
-            this.Price.ReadOnly = true;
-            this.Price.Width = 170;
-            // 
-            // Amount
-            // 
-            this.Amount.DataPropertyName = "Amount";
-            this.Amount.HeaderText = "Số lượng";
-            this.Amount.Name = "Amount";
-            this.Amount.ReadOnly = true;
-            this.Amount.Width = 150;
             // 
             // frmQuanLyXuatSp
             // 
